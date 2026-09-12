@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Self Speed</title>
+<style>
+  :root{
+    --bg:#0b0e14;
+    --panel:#141926;
+    --line:#232c3f;
+    --text:#e8ecf5;
+    --muted:#8793ab;
+    --accent:#37d67a;
+    --danger:#ff5d5d;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100dvh;
+    background:radial-gradient(120% 90% at 50% 0%,#161d2c 0%,var(--bg) 60%);
+    color:var(--text);
+    font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 16px 40px;
+    gap:20px;
+  }
+  h1{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+
+  .gauge{position:relative;width:min(340px,86vw);aspect-ratio:1/1}
+  .gauge svg{width:100%;height:100%;display:block;overflow:visible}
+  .track{stroke:#1e2636;stroke-width:16;fill:none;stroke-linecap:round}
+  .fill{stroke:url(#grad);stroke-width:16;fill:none;stroke-linecap:round;
+        transition:stroke-dashoffset .35s cubic-bezier(.22,.61,.36,1)}
+  .tick{stroke:#39455f;stroke-width:2}
+  .tick.major{stroke:#5b6a8a;stroke-width:3}
+  .tick-label{fill:var(--muted);font-size:11px;text-anchor:middle;dominant-baseline:middle}
+
+  .readout{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:2px;pointer-events:none;
+  }
+  .value{
+    font-size:clamp(56px,17vw,78px);font-weight:700;line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:-.03em;
+  }
+  .unit{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+
+  .units{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);
+         border-radius:999px;padding:4px}
+  .units button{
+    appearance:none;border:0;background:transparent;color:var(--muted);
+    font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;cursor:pointer;
+  }
+  .units button[aria-pressed="true"]{background:var(--accent);color:#06210f}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+    width:min(420px,100%);
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:12px 10px;text-align:center;
+  }
+  .stat .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px}
+
+  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:min(420px,100%)}
+  .btn{
+    appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--text);
+    font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;cursor:pointer;flex:1 1 140px;
+  }
+  .btn:hover{border-color:#35425e}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#06210f}
+  .btn.stop{background:var(--danger);border-color:var(--danger);color:#2a0505}
+
+  .status{
+    width:min(420px,100%);min-height:20px;text-align:center;font-size:13px;color:var(--muted);
+  }
+  .status.error{color:var(--danger)}
+  .status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
+               background:var(--muted);margin-right:7px;vertical-align:middle}
+  .status.live .dot{background:var(--accent);animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.25}}
+
+  .note{max-width:420px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+</style>
+</head>
+<body>
+
+<h1>Self Speed</h1>
+
+<div class="gauge">
+  <svg viewBox="0 0 280 280" aria-hidden="true">
+    <defs>
+      <linearGradient id="grad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#4aa8ff"/>
+        <stop offset="55%"  stop-color="#37d67a"/>
+        <stop offset="100%" stop-color="#ffb23f"/>
+      </linearGradient>
+    </defs>
+    <g id="ticks"></g>
+    <path id="track" class="track"></path>
+    <path id="fill"  class="fill"></path>
+  </svg>
+
+  <div class="readout">
+    <div class="value" id="value">--</div>
+    <div class="unit"  id="unitLabel">km/h</div>
+  </div>
+</div>
+
+<div class="units" role="group" aria-label="Units">
+  <button data-unit="kmh" aria-pressed="true">km/h</button>
+  <button data-unit="mph" aria-pressed="false">mph</button>
+  <button data-unit="ms"  aria-pressed="false">m/s</button>
+  <button data-unit="kn"  aria-pressed="false">knots</button>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="k">Max</div><div class="v" id="maxSpeed">--</div></div>
+  <div class="stat"><div class="k">Average</div><div class="v" id="avgSpeed">--</div></div>
+  <div class="stat"><div class="k">Distance</div><div class="v" id="distance">--</div></div>
+</div>
+
+<div class="controls">
+  <button class="btn primary" id="toggle">Start tracking</button>
+  <button class="btn" id="reset">Reset</button>
+</div>
+
+<div class="status" id="status"><span class="dot"></span>Idle &mdash; press start and allow location access.</div>
+
+<p class="note">
+  Needs GPS and a secure origin (<code>https://</code> or <code>localhost</code>).
+  Accuracy is best outdoors on a phone; laptops often report position from Wi-Fi and no speed at all.
+</p>
+
+<script>
+(() => {
+  'use strict';
+
+  // ---- unit definitions (all speeds handled internally in m/s) --------------
+  const UNITS = {
+    kmh: { label: 'km/h',  speed: 3.6,      decimals: 0 },
+    mph: { label: 'mph',   speed: 2.236936, decimals: 0 },
+    ms:  { label: 'm/s',   speed: 1,        decimals: 1 },
+    kn:  { label: 'knots', speed: 1.943844, decimals: 1 },
+  };
+  // Top of the gauge scale, expressed in each unit.
+  const SCALE_MAX = { kmh: 120, mph: 80, ms: 35, kn: 70 };
+
+  let unit = 'kmh';
+
+  const $ = (id) => document.getElementById(id);
+  const el = {
+    value: $('value'), unitLabel: $('unitLabel'), max: $('maxSpeed'),
+    avg: $('avgSpeed'), dist: $('distance'), status: $('status'),
+    toggle: $('toggle'), reset: $('reset'), fill: $('fill'),
+    track: $('track'), ticks: $('ticks'),
+  };
+
+  // ---- gauge geometry ------------------------------------------------------
+  const CX = 140, CY = 144, R = 112;
+  const START = 150, SWEEP = 240;          // 150deg -> 390deg, leaving a gap at the bottom
+  const ARC_LEN = 2 * Math.PI * R * (SWEEP / 360);
+
+  const polar = (deg, r = R) => {
+    const a = (deg - 90) * Math.PI / 180;
+    return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+  };
+
+  function arcPath() {
+    const [x1, y1] = polar(START);
+    const [x2, y2] = polar(START + SWEEP);
+    return 'M ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 ' +
+           (SWEEP > 180 ? 1 : 0) + ' 1 ' + x2 + ' ' + y2;
+  }
+
+  function drawTicks() {
+    const step = SCALE_MAX[unit] / 8;
+    let svg = '';
+    for (let i = 0; i <= 8; i++) {
+      const deg = START + (SWEEP * i) / 8;
+      const major = i % 2 === 0;
+      const [ax, ay] = polar(deg, R - 13);
+      const [bx, by] = polar(deg, R - (major ? 25 : 20));
+      svg += '<line class="tick' + (major ? ' major' : '') + '" x1="' + ax + '" y1="' + ay +
+             '" x2="' + bx + '" y2="' + by + '"/>';
+      if (major) {
+        const [lx, ly] = polar(deg, R - 38);
+        svg += '<text class="tick-label" x="' + lx + '" y="' + ly + '">' +
+               Math.round(i * step) + '</text>';
+      }
+    }
+    el.ticks.innerHTML = svg;
+  }
+
+  function setNeedle(speedMs) {
+    const inUnit = speedMs * UNITS[unit].speed;
+    const frac = Math.max(0, Math.min(1, inUnit / SCALE_MAX[unit]));
+    el.fill.style.strokeDashoffset = String(ARC_LEN * (1 - frac));
+  }
+
+  el.track.setAttribute('d', arcPath());
+  el.fill.setAttribute('d', arcPath());
+  el.fill.style.strokeDasharray = ARC_LEN + ' ' + ARC_LEN;
+  el.fill.style.strokeDashoffset = String(ARC_LEN);
+  drawTicks();
+
+  // ---- tracking state ------------------------------------------------------
+  let watchId = null;
+  let lastFix = null;      // { lat, lon, t }
+  let currentSpeed = 0;    // m/s, smoothed
+  let maxSpeed = 0;        // m/s
+  let distance = 0;        // metres
+  let movingTime = 0;      // seconds spent above the moving threshold
+  const samples = [];      // recent { t, v } readings used for smoothing
+  const SMOOTH_MS = 2500;
+  const MOVING_MS = 0.5;   // below this we treat the user as stationary
+
+  function haversine(lat1, lon1, lat2, lon2) {
+    const R_EARTH = 6371008.8;
+    const toRad = Math.PI / 180;
+    const dLat = (lat2 - lat1) * toRad;
+    const dLon = (lon2 - lon1) * toRad;
+    const a = Math.pow(Math.sin(dLat / 2), 2) +
+              Math.cos(lat1 * toRad) * Math.cos(lat2 * toRad) * Math.pow(Math.sin(dLon / 2), 2);
+    return 2 * R_EARTH * Math.asin(Math.sqrt(a));
+  }
+
+  // ---- formatting ----------------------------------------------------------
+  const fmtSpeed = (ms) => (ms * UNITS[unit].speed).toFixed(UNITS[unit].decimals);
+
+  function fmtDistance(metres) {
+    if (unit === 'mph') {
+      const mi = metres / 1609.344;
+      return mi < 0.1 ? Math.round(metres * 3.28084) + ' ft' : mi.toFixed(2) + ' mi';
+    }
+    if (unit === 'kn') {
+      const nmi = metres / 1852;
+      return nmi < 0.1 ? Math.round(metres) + ' m' : nmi.toFixed(2) + ' nmi';
+    }
+    return metres < 1000 ? Math.round(metres) + ' m' : (metres / 1000).toFixed(2) + ' km';
+  }
+
+  function render() {
+    el.unitLabel.textContent = UNITS[unit].label;
+    el.value.textContent = (watchId === null && !lastFix) ? '--' : fmtSpeed(currentSpeed);
+    el.max.textContent = maxSpeed > 0 ? fmtSpeed(maxSpeed) : '--';
+    el.avg.textContent = movingTime > 3 ? fmtSpeed(distance / movingTime) : '--';
+    el.dist.textContent = distance > 0 ? fmtDistance(distance) : '--';
+    setNeedle(currentSpeed);
+  }
+
+  function setStatus(text, kind) {
+    el.status.className = 'status' + (kind ? ' ' + kind : '');
+    el.status.innerHTML = '<span class="dot"></span>' + text;
+  }
+
+  // ---- geolocation ---------------------------------------------------------
+  function onPosition(pos) {
+    const c = pos.coords;
+    const t = pos.timestamp;
+
+    // Prefer the device's own speed reading; fall back to distance over time.
+    let speed = (typeof c.speed === 'number' && isFinite(c.speed) && c.speed >= 0) ? c.speed : null;
+    const source = speed === null ? 'derived from position' : 'GPS speed';
+
+    if (lastFix) {
+      const dt = (t - lastFix.t) / 1000;
+      const d = haversine(lastFix.lat, lastFix.lon, c.latitude, c.longitude);
+      if (dt > 0.3) {
+        if (speed === null) speed = d / dt;
+        // Only count distance once movement clears the accuracy noise floor.
+        if (d > Math.max(c.accuracy || 0, 3) * 0.5) distance += d;
+        if (speed > MOVING_MS) movingTime += dt;
+      }
+    }
+
+    lastFix = { lat: c.latitude, lon: c.longitude, t: t };
+    if (speed === null) speed = 0;
+
+    // Rolling average over the last few seconds so the number stops twitching.
+    samples.push({ t: t, v: speed });
+    while (samples.length && t - samples[0].t > SMOOTH_MS) samples.shift();
+    currentSpeed = samples.reduce((s, x) => s + x.v, 0) / samples.length;
+
+    if (currentSpeed > maxSpeed) maxSpeed = currentSpeed;
+
+    const acc = c.accuracy ? '±' + Math.round(c.accuracy) + ' m' : 'unknown accuracy';
+    setStatus('Live — ' + source + ', ' + acc, 'live');
+    render();
+  }
+
+  function onError(err) {
+    stop();
+    const messages = {
+      1: 'Location permission denied. Enable it for this site in your browser settings.',
+      2: 'Position unavailable — no GPS or network fix right now.',
+      3: 'Timed out waiting for a location fix.',
+    };
+    setStatus(messages[err.code] || ('Location error: ' + err.message), 'error');
+  }
+
+  function start() {
+    if (!('geolocation' in navigator)) {
+      setStatus('This browser has no Geolocation API.', 'error');
+      return;
+    }
+    if (!window.isSecureContext) {
+      setStatus('Blocked: geolocation needs https:// or localhost.', 'error');
+      return;
+    }
+    setStatus('Acquiring GPS fix…');
+    watchId = navigator.geolocation.watchPosition(onPosition, onError, {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 20000,
+    });
+    el.toggle.textContent = 'Stop';
+    el.toggle.classList.remove('primary');
+    el.toggle.classList.add('stop');
+  }
+
+  function stop() {
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+    lastFix = null;
+    samples.length = 0;
+    currentSpeed = 0;
+    el.toggle.textContent = 'Start tracking';
+    el.toggle.classList.add('primary');
+    el.toggle.classList.remove('stop');
+    setStatus('Stopped.');
+    render();
+  }
+
+  // ---- wiring --------------------------------------------------------------
+  el.toggle.addEventListener('click', () => (watchId === null ? start() : stop()));
+
+  el.reset.addEventListener('click', () => {
+    maxSpeed = 0; distance = 0; movingTime = 0; currentSpeed = 0;
+    samples.length = 0; lastFix = null;
+    render();
+  });
+
+  document.querySelectorAll('.units button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      unit = btn.dataset.unit;
+      document.querySelectorAll('.units button').forEach((b) =>
+        b.setAttribute('aria-pressed', String(b === btn)));
+      drawTicks();
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
