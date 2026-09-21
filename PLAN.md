@@ -45,8 +45,10 @@ Gaps that make it unusable in the field today.
 
 - [x] **Screen Wake Lock** — the screen sleeps mid-ride and tracking dies.
       Highest-value fix.
-- [x] **PWA + offline** — manifest, service worker, installable to home screen.
-      Also a ranking signal.
+- [x] **Offline support** — service worker so the page works with no signal
+      (tunnels, boats, mountains) and reloads instantly. Note: being a PWA is
+      *not* a Google ranking signal; the benefit is faster repeat loads feeding
+      Core Web Vitals. No install prompt — this is a website, not an app.
 - [x] **Trip history** — persist sessions to `localStorage`; gives people a
       reason to return.
 - [x] **GPX export** — differentiates from every competitor, cheap to build.

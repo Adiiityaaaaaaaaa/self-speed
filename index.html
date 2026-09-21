@@ -45,7 +45,6 @@
 
   header{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}
   h1{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
-  #install{display:none;font-size:12px;padding:7px 12px;white-space:nowrap}
 
   /* ---- banner ---- */
   .banner{
@@ -132,7 +131,6 @@
 
   <header>
     <h1>Self Speed</h1>
-    <button class="btn" id="install" type="button">Install app</button>
   </header>
 
   <div class="banner" id="banner"></div>
@@ -225,7 +223,6 @@
   let startedAt = 0;
   let lastAccuracy = null;
   let warnedPoorAccuracy = false;
-  let deferredInstall = null;
   const samples = [];       // { t, v } for smoothing
   const track = [];         // recorded GPX points
 
@@ -235,7 +232,7 @@
     dist: $('distance'), elapsed: $('elapsed'), accuracy: $('accuracy'), points: $('points'),
     status: $('status'), toggle: $('toggle'), reset: $('reset'), exportBtn: $('export'),
     fill: $('fill'), trackPath: $('track'), ticks: $('ticks'), banner: $('banner'),
-    install: $('install'), history: $('history'), tripList: $('tripList'),
+    history: $('history'), tripList: $('tripList'),
     clearHistory: $('clearHistory'),
   };
 
@@ -601,21 +598,8 @@
     render();
   }, 500);
 
-  // --------------------------------------------------------- PWA install flow
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredInstall = e;
-    el.install.style.display = 'block';
-  });
-
-  el.install.addEventListener('click', async () => {
-    if (!deferredInstall) return;
-    deferredInstall.prompt();
-    await deferredInstall.userChoice;
-    deferredInstall = null;
-    el.install.style.display = 'none';
-  });
-
+  // Service worker is kept purely so the page works offline and reloads fast —
+  // useful in a tunnel, on a boat, or up a mountain. No install prompt.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js').catch(() => {});
