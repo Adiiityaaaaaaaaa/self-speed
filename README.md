@@ -3,7 +3,7 @@
 A free GPS speedometer that runs entirely in your browser. No app install, no
 account, and no location data ever leaves your device.
 
-**Live:** https://adiiityaaaaaaaaa.github.io/self-speed/
+**Live:** https://selfspeed.app
 
 ## Features
 

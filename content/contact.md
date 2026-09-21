@@ -33,7 +33,7 @@ Bugs and feature requests can also be raised directly at
 
 ## Privacy questions
 
-See the [privacy policy](/self-speed/privacy/). In short: your location is
+See the [privacy policy](/privacy/). In short: your location is
 processed on your device and never transmitted, and the site holds no personal
 data about you at all.
 
@@ -69,14 +69,14 @@ averages over 2.5 seconds to suppress this.
 
 If it is still jumpy, you are likely somewhere with poor sky visibility — a city
 street between tall buildings, under dense trees, or inside a vehicle. See
-[is GPS speed accurate](/self-speed/is-gps-speed-accurate/).
+[is GPS speed accurate](/is-gps-speed-accurate/).
 
 ### The number is lower than my car dashboard
 
 That is expected and both readings are correct. Car speedometers are legally
 required never to under-read, so manufacturers build in a margin of typically 3
 to 7 percent. The full explanation is on the
-[car speedometer](/self-speed/car-speedometer/) page.
+[car speedometer](/car-speedometer/) page.
 
 ### My distance is wrong
 
@@ -94,4 +94,4 @@ the page in the first place. Load it before you go up a mountain or out to sea.
 ### Is my location being uploaded?
 
 No. There is no server. Everything is computed in your browser and nothing is
-transmitted. See the [privacy policy](/self-speed/privacy/).
+transmitted. See the [privacy policy](/privacy/).

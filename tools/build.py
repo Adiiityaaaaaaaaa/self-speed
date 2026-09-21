@@ -18,8 +18,10 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 TEMPLATE = ROOT / "tools" / "template.html"
 
-# Change this one line when the custom domain goes live.
-BASE = "https://adiiityaaaaaaaaa.github.io/self-speed"
+# Canonical origin. PREFIX is the path the site is served from: "/" on a
+# custom domain, "/<repo>/" if ever served from a GitHub Pages subpath again.
+BASE = "https://selfspeed.app"
+PREFIX = "/"
 
 # Order matters: this is the nav and the sitemap priority order.
 NAV = [
@@ -152,7 +154,7 @@ def url_for(slug):
 def nav_html(current):
     items = []
     for slug, label in NAV:
-        href = "/self-speed/" if slug == "" else f"/self-speed/{slug}/"
+        href = PREFIX if slug == "" else f"{PREFIX}{slug}/"
         cls = ' class="here"' if slug == current else ""
         items.append(f'<a href="{href}"{cls}>{label}</a>')
     return "".join(items)
@@ -160,7 +162,7 @@ def nav_html(current):
 
 def footer_html():
     return "".join(
-        f'<a href="/self-speed/{slug}/">{label}</a>' for slug, label in FOOTER
+        f'<a href="{PREFIX}{slug}/">{label}</a>' for slug, label in FOOTER
     )
 
 

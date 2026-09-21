@@ -2,8 +2,7 @@
 
 Turning the prototype into a live, ad-monetised site.
 
-**Live prototype:** https://adiiityaaaaaaaaa.github.io/self-speed/
-**Target domain:** `selfspeed.in` or `selfspeed.app`
+**Live:** https://selfspeed.app — registered 22 September 2026, ₹1,537.50/yr
 
 ---
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adiiityaaaaaaaaa.github.io/self-speed/sitemap.xml
+Sitemap: https://selfspeed.app/sitemap.xml

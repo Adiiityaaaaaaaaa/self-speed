@@ -2,7 +2,7 @@
  *
  * Bump CACHE on every deploy, otherwise clients keep serving the old shell.
  */
-const CACHE = 'self-speed-v1';
+const CACHE = 'self-speed-v2';
 
 const SHELL = [
   './',

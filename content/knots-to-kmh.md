@@ -74,7 +74,7 @@ nautical miles per hour. Hence "making eight knots", and hence the ship's log.
 
 GPS gives you speed over ground. A boat's paddlewheel log gives speed through
 water. The difference between them is the current, which is why sailors watch
-both — see [boat speedometer](/self-speed/boat-speedometer-knots/).
+both — see [boat speedometer](/boat-speedometer-knots/).
 
 Self Speed reads out in knots and reports distance in nautical miles when you
 select those units.

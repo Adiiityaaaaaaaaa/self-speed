@@ -58,7 +58,7 @@ Self Speed shows a warning banner automatically when accuracy is worse than
 ## GPS versus your car's dashboard
 
 Your car reads high by design — legally it must never under-read, so
-manufacturers build in a 3 to 7 percent margin. See [car speedometer](/self-speed/car-speedometer/)
+manufacturers build in a 3 to 7 percent margin. See [car speedometer](/car-speedometer/)
 for the regulation and the numbers.
 
 So when GPS says 96 and the dashboard says 100, both are working correctly. GPS

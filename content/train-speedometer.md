@@ -82,7 +82,7 @@ window seat gets a usable fix in most cases.
 
 Excellent. Open deck, unobstructed sky, no interference — close to ideal GPS
 conditions. Switch the units to knots for the reading the crew would use. See
-[boat speedometer](/self-speed/boat-speedometer-knots/).
+[boat speedometer](/boat-speedometer-knots/).
 
 ### Aircraft
 

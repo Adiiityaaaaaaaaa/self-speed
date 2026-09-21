@@ -64,7 +64,7 @@ negligence, or for fraud, where such limitation is not permitted by law.
 
 ## Your data
 
-Covered separately in the [privacy policy](/self-speed/privacy/). In summary, the
+Covered separately in the [privacy policy](/privacy/). In summary, the
 site collects nothing.
 
 ## Changes

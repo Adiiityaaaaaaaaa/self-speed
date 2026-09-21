@@ -29,7 +29,7 @@ back to computing speed from the distance between successive positions.
 
 The status line under the gauge always tells you which method is in use, and the
 accuracy figure tells you how much to trust it. There is a longer explanation in
-[how GPS speedometers work](/self-speed/how-gps-speedometers-work/).
+[how GPS speedometers work](/how-gps-speedometers-work/).
 
 ## What it does
 

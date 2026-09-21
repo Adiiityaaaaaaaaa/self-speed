@@ -84,4 +84,4 @@ page.
 
 ## Contact
 
-Questions about this policy: see the [contact page](/self-speed/contact/).
+Questions about this policy: see the [contact page](/contact/).
