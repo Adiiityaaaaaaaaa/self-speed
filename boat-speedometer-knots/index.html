@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Boat Speedometer in Knots — GPS Speed Over Ground for Sailing</title>
+<meta name="description" content="A free GPS speedometer in knots for sailing, motorboating and kayaking. Shows speed over ground, distance in nautical miles, and works offline on the water.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/boat-speedometer-knots/">
+<meta property="og:title" content="Boat Speedometer in Knots — GPS Speed Over Ground for Sailing">
+<meta property="og:description" content="A free GPS speedometer in knots for sailing, motorboating and kayaking. Shows speed over ground, distance in nautical miles, and works offline on the water.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/" class="here">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Boat speedometer — knots</h1>
+<p>Switch the units to <strong>knots</strong> and Self Speed becomes a GPS speed-over-ground readout for sailing, motorboating, kayaking or paddleboarding. Distance is reported in nautical miles to match.</p>
+<h2 id="speed-over-ground-is-not-speed-through-water">Speed over ground is not speed through water</h2>
+<p>This distinction matters more on the water than anywhere else, and it is the single most useful thing GPS gives a sailor.</p>
+<ul><li><strong>Speed through water (STW)</strong> is what a paddlewheel or impeller log measures:</li></ul>
+<p>how fast the hull moves relative to the water around it.</p>
+<ul><li><strong>Speed over ground (SOG)</strong> is what GPS measures: how fast you move relative</li></ul>
+<p>to the seabed.</p>
+<p>The difference between them <em>is the current</em>. Sail at 6 knots through the water against a 2 knot foul tide and your GPS reads 4 knots over ground. Turn around and it reads 8.</p>
+<blockquote><p>If your log says 6 and your GPS says 4, you are not slow — you have two knots of tide against you. Navigating on STW alone in tidal waters will put you somewhere you did not intend.</p></blockquote>
+<h2 id="why-passage-planning-uses-sog">Why passage planning uses SOG</h2>
+<p>Your estimated time of arrival depends entirely on speed over ground, because that is what closes the distance to your destination. A tidal gate you need to make at a particular hour is a SOG calculation, not a STW one.</p>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Source</th><th>Use it for</th></tr></thead><tbody><tr><td>Speed over ground</td><td>GPS</td><td>ETA, passage planning, tidal gates</td></tr><tr><td>Speed through water</td><td>Paddlewheel log</td><td>Sail trim, boat performance</td></tr><tr><td>Both together</td><td>—</td><td>Working out the set and drift of the current</td></tr></tbody></table></div>
+<h2 id="units-and-conversions">Units and conversions</h2>
+<p>One knot is one nautical mile per hour — and one nautical mile is one minute of latitude, which is why the unit survives. It is 1.852 km/h exactly.</p>
+<div class="table-wrap"><table><thead><tr><th>Knots</th><th>km/h</th><th>mph</th></tr></thead><tbody><tr><td>1</td><td>1.85</td><td>1.15</td></tr><tr><td>3</td><td>5.56</td><td>3.45</td></tr><tr><td>5</td><td>9.26</td><td>5.75</td></tr><tr><td>6</td><td>11.11</td><td>6.90</td></tr><tr><td>10</td><td>18.52</td><td>11.51</td></tr><tr><td>20</td><td>37.04</td><td>23.02</td></tr><tr><td>30</td><td>55.56</td><td>34.52</td></tr></tbody></table></div>
+<h2 id="gps-at-sea-is-unusually-good">GPS at sea is unusually good</h2>
+<p>Open water is the ideal GPS environment — total sky visibility, no buildings, no tree cover, no multipath reflections off nearby surfaces. Accuracy at sea is typically better than anywhere on land, often ±3 m or better.</p>
+<p>The practical problems are different: <strong>salt water and phones do not mix</strong>, and you will frequently be out of mobile data range. Self Speed works offline once loaded, so open it before you leave the dock and it keeps running with no signal.</p>
+<h2 id="a-serious-caveat">A serious caveat</h2>
+<p>This is a convenience tool, not navigation equipment. It has no chart, no AIS, no depth, no collision avoidance and no redundancy — and a phone battery dies. Carry proper navigation equipment and paper charts for any passage where getting it wrong has consequences.</p>
+<h2 id="working-out-the-current">Working out the current</h2>
+<p>If you have both a log and GPS, the current falls straight out of the difference, and knowing it changes your decisions.</p>
+<p>Sailing a course with speed through water of 6.0 knots and speed over ground of 4.2 knots means 1.8 knots of foul tide. Over a six-hour passage that is nearly 11 nautical miles of lost ground — frequently the difference between arriving on the tide and waiting outside a harbour for six hours.</p>
+<p>Tidal streams in constricted waters run far harder than open-sea figures suggest. The Pentland Firth reaches 12 knots on springs, faster than most cruising yachts can sail. There, the tide decides whether the passage is possible at all.</p>
+<h2 id="hull-speed">Hull speed</h2>
+<p>A displacement hull is limited by the wave it makes. As it approaches the speed at which its own bow wave is as long as the hull, the boat is climbing a hole of its own digging, and power requirements rise steeply.</p>
+<blockquote><p>Hull speed in knots is roughly 1.34 times the square root of the waterline length in feet.</p></blockquote>
+<div class="table-wrap"><table><thead><tr><th>Waterline</th><th>Hull speed</th></tr></thead><tbody><tr><td>20 ft</td><td>6.0 knots</td></tr><tr><td>25 ft</td><td>6.7 knots</td></tr><tr><td>30 ft</td><td>7.3 knots</td></tr><tr><td>40 ft</td><td>8.5 knots</td></tr></tbody></table></div>
+<p>This is why boat speed is so tightly linked to length, and why a 40-footer is only modestly faster than a 30-footer despite being far larger. Planing hulls and multihulls escape the limit by rising over their own bow wave instead of pushing through it.</p>
+<h2 id="frequently-asked">Frequently asked</h2>
+<h3>Why does my GPS speed differ from my log?</h3>
+<p>The difference is the current. GPS measures speed over ground, the log measures speed through water. Both are correct, and the gap between them is the useful information.</p>
+<h3>Is GPS accurate at sea?</h3>
+<p>Unusually so. Open water gives total sky visibility with no buildings, trees or reflecting surfaces, so accuracy is typically better than anywhere on land.</p>
+<h3>Will it work out of mobile range?</h3>
+<p>Yes. GPS satellites are not mobile networks, and your receiver needs no data connection to get a fix. Load the page before leaving the dock and it works offline for the whole passage.</p>
+<h3>Can I use it for navigation?</h3>
+<p>No. It has no chart, no depth, no AIS, no collision avoidance and no redundancy, and it depends on a phone battery in a wet environment. Carry proper navigation equipment.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

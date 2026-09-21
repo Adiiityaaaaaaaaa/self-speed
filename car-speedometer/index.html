@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Car Speedometer App — Check Your Real GPS Speed in the Browser</title>
+<meta name="description" content="A free GPS speedometer for your car. See your true ground speed, compare it against your dashboard, and find out why the two never quite agree.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/car-speedometer/">
+<meta property="og:title" content="Car Speedometer App — Check Your Real GPS Speed in the Browser">
+<meta property="og:description" content="A free GPS speedometer for your car. See your true ground speed, compare it against your dashboard, and find out why the two never quite agree.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/" class="here">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Car speedometer</h1>
+<p>Your car's speedometer is lying to you, and it is legally required to. Open Self Speed on a phone in the passenger seat and you will see a number several percent lower than the dashboard. Here is why, and what to do with that information.</p>
+<h2 id="your-dashboard-reads-high-on-purpose">Your dashboard reads high on purpose</h2>
+<p>Under <strong>UNECE Regulation 39</strong>, which applies across the EU, UK, India and most of the world, a car's speedometer must never indicate <em>less</em> than the true speed. It may indicate more, up to a limit:</p>
+<blockquote><p>The indicated speed must not be lower than the true speed, and must not exceed it by more than 10% + 4 km/h.</p></blockquote>
+<p>At a true 100 km/h, a legal speedometer can read anything from 100 to 114 km/h. Manufacturers deliberately aim high — nobody wants warranty claims from drivers booked for speeding on an under-reading dial. A 3–7% over-read is typical.</p>
+<div class="table-wrap"><table><thead><tr><th>True speed</th><th>Legal indicated range</th><th>Typical dashboard</th></tr></thead><tbody><tr><td>50 km/h</td><td>50 – 59 km/h</td><td>52 – 54</td></tr><tr><td>80 km/h</td><td>80 – 92 km/h</td><td>83 – 86</td></tr><tr><td>100 km/h</td><td>100 – 114 km/h</td><td>104 – 107</td></tr><tr><td>120 km/h</td><td>120 – 136 km/h</td><td>125 – 129</td></tr></tbody></table></div>
+<h2 id="tyres-change-the-reading-too">Tyres change the reading too</h2>
+<p>A car speedometer counts driveshaft or wheel rotations and multiplies by an assumed rolling circumference. Anything that changes that circumference shifts every reading:</p>
+<ul><li><strong>Worn tyres</strong> are smaller, so the wheel turns more often per kilometre and</li></ul>
+<p>the dial reads higher still — up to about 2% on fully worn rubber.</p>
+<ul><li><strong>Under-inflation</strong> has the same effect, slightly.</li><li><strong>Larger aftermarket wheels</strong> read <em>low</em>, which is the dangerous direction and</li></ul>
+<p>in many places makes the car non-compliant.</p>
+<p>GPS measures your movement over the ground and is immune to all of it.</p>
+<h2 id="so-which-one-do-i-obey">So which one do I obey?</h2>
+<p><strong>The dashboard.</strong> Two reasons, and neither is about which is more accurate:</p>
+<ol><li>Enforcement cameras and police equipment measure true speed, but your margin</li></ol>
+<p>for error is theirs, not yours. Driving to a GPS reading of exactly the limit means your true speed is at the limit with no buffer.</p>
+<ol><li>GPS fails. Tunnels, urban canyons, multi-storey car parks and heavy cloud all</li></ol>
+<p>degrade the fix. A speedometer that occasionally stops working is not something to steer by.</p>
+<p>Use GPS to <em>understand</em> your dashboard's offset, then drive by the dashboard.</p>
+<h2 id="safety">Safety</h2>
+<p>Set it running before you move off, mount the phone where you do not have to look down, and never interact with it while driving. If you want speed while driving, a passenger should hold the phone, or use your car's head-up display.</p>
+<h2 id="checking-your-speedometer-error">Checking your speedometer error</h2>
+<p>On a quiet straight road with a clear sky, hold a steady indicated speed and read the GPS number. Repeat at 50, 80 and 100 km/h. The difference is your car's offset, and it stays roughly proportional across the range — useful to know on long motorway drives where a consistent few km/h adds up.</p>
+<h2 id="what-speed-cameras-actually-measure">What speed cameras actually measure</h2>
+<p>Understanding the enforcement side explains why the dashboard margin exists.</p>
+<p><strong>Radar and lidar</strong> measure your true speed directly — radar via Doppler shift off the vehicle body, lidar by timing laser pulses. Both are calibrated instruments subject to periodic certification.</p>
+<p><strong>Average speed cameras</strong> photograph a numberplate at two points a known distance apart and divide. This is the same method Self Speed falls back on, and it is immune to braking for the camera.</p>
+<p><strong>Induction loops</strong> cut into the road surface detect a vehicle passing over two coils in sequence.</p>
+<p>All of them measure true speed, not indicated speed. Most jurisdictions apply an enforcement tolerance on top — commonly the greater of 2 mph or 10 percent — but that tolerance is a matter of policy, not entitlement, and it can be withdrawn.</p>
+<h2 id="why-a-gps-reading-is-not-a-defence">Why a GPS reading is not a defence</h2>
+<p>People occasionally hope a phone screenshot will contest a ticket. It will not.</p>
+<p>A calibrated enforcement device has a documented certification chain, a maintenance record and a legal status as an approved measuring instrument. A consumer phone has none of these. Its accuracy figure is the receiver's own estimate, not a certification, and the reading depends on satellite conditions nobody recorded at the time.</p>
+<p>Use GPS to understand your car, not to argue with anyone.</p>
+<h2 id="frequently-asked">Frequently asked</h2>
+<h3>Why is my GPS speed lower than my speedometer?</h3>
+<p>Because your speedometer is required by law never to read low, so manufacturers build in a margin. A 3 to 7 percent over-read is normal and correct. Both instruments are working.</p>
+<h3>Which is the real speed?</h3>
+<p>GPS is closer to your true speed over the ground, assuming a good satellite fix. But drive by the dashboard — GPS drops out in tunnels and cities, and it has no legal standing.</p>
+<h3>Does GPS work inside a car?</h3>
+<p>Yes, through the windscreen, which is usually the best-placed glass. Heated windscreens with embedded filaments and some heat-reflective glazing attenuate the signal noticeably. A dashboard mount near the screen works better than a phone in a cupholder or door pocket.</p>
+<h3>Will changing my wheels affect it?</h3>
+<p>It will affect your dashboard but not the GPS. Larger wheels make the dashboard read low, which is the dangerous direction and in many places makes the vehicle non-compliant. GPS is unaffected because it never touches the drivetrain.</p>
+<h3>Does it work in a tunnel?</h3>
+<p>No. GPS needs line of sight to satellites and a tunnel has none. The reading goes grey and resumes after a short reacquisition delay on the far side.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

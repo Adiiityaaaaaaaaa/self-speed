@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Privacy Policy — Self Speed</title>
+<meta name="description" content="How Self Speed handles your location data. Short version: it never leaves your device, and there is no account, no server and no tracking.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/privacy/">
+<meta property="og:title" content="Privacy Policy — Self Speed">
+<meta property="og:description" content="How Self Speed handles your location data. Short version: it never leaves your device, and there is no account, no server and no tracking.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Privacy policy</h1>
+<p><em>Last updated: 22 September 2026</em></p>
+<h2 id="the-short-version">The short version</h2>
+<p>Self Speed asks for your location because a speedometer cannot work without it. That location is used inside your browser, on your device, to calculate a number on screen. <strong>It is never transmitted anywhere.</strong> There is no server to send it to.</p>
+<h2 id="your-location-data">Your location data</h2>
+<p>When you press Start, the page calls your browser's standard Geolocation API. Your browser asks your permission, and if you grant it, supplies a stream of position readings.</p>
+<p>Those readings are used entirely within the page to compute your speed, distance, elapsed time and track. They exist in your device's memory while the page is open. When you close the tab, they are gone.</p>
+<p>We do not upload them, log them, store them on any server, or share them with anyone. There is no server-side component to this site — it is a static page.</p>
+<h2 id="what-is-stored-on-your-device">What is stored on your device</h2>
+<p>Two things are saved in your browser's local storage, which never leaves your device and which we cannot read:</p>
+<div class="table-wrap"><table><thead><tr><th>What</th><th>Why</th><th>How to remove</th></tr></thead><tbody><tr><td>Your preferred units</td><td>So the page opens in km/h or mph as you left it</td><td>Clear site data in your browser</td></tr><tr><td>Trip summaries</td><td>The Recent trips list: date, distance, max and average speed</td><td>Press Clear in the trips section</td></tr></tbody></table></div>
+<p>Trip summaries contain <strong>no coordinates</strong> — only aggregate figures. Your actual route is held in memory during a session for GPX export and is discarded when you close the page.</p>
+<h2 id="offline-caching">Offline caching</h2>
+<p>The site registers a service worker, which stores a copy of the page files in your browser so it still works without a signal. This caches only the site's own code and images. It stores nothing about you.</p>
+<h2 id="cookies-and-analytics">Cookies and analytics</h2>
+<p><strong>This site currently sets no cookies and runs no analytics.</strong> There is no Google Analytics, no tracking pixel, no fingerprinting, and no third-party scripts of any kind.</p>
+<p>If advertising is introduced in future, this policy will be updated before it goes live to describe exactly what is set and by whom, and a consent mechanism will be provided where the law requires one.</p>
+<h2 id="hosting">Hosting</h2>
+<p>The site is served as static files by its hosting provider. Like any web host, that provider may log standard request data — IP address, timestamp, user agent — as part of normal server operation. We do not have access to per-user logs of this kind and do not use them.</p>
+<h2 id="your-rights">Your rights</h2>
+<p>Because we hold no personal data about you, there is nothing for us to disclose, correct or delete on request. Everything the site knows about you is on your own device, under your control, and removable by clearing your browser's site data.</p>
+<h2 id="children">Children</h2>
+<p>This site is a general-purpose utility and is not directed at children. It collects no data from anyone, of any age.</p>
+<h2 id="changes">Changes</h2>
+<p>Material changes to this policy will be reflected in the date at the top of this page.</p>
+<h2 id="contact">Contact</h2>
+<p>Questions about this policy: see the <a href="/self-speed/contact/">contact page</a>.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

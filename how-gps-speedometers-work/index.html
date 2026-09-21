@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>How GPS Speedometers Work — Doppler Shift vs Position Differencing</title>
+<meta name="description" content="How a GPS speedometer actually measures speed, why Doppler shift beats dividing distance by time, and what your phone is really doing when it reports a speed.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/how-gps-speedometers-work/">
+<meta property="og:title" content="How GPS Speedometers Work — Doppler Shift vs Position Differencing">
+<meta property="og:description" content="How a GPS speedometer actually measures speed, why Doppler shift beats dividing distance by time, and what your phone is really doing when it reports a speed.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>How GPS speedometers work</h1>
+<p>There are two completely different ways to get speed from GPS, and almost everyone assumes the wrong one. The good method is far more accurate than most people realise.</p>
+<h2 id="the-obvious-method-position-differencing">The obvious method: position differencing</h2>
+<p>Take your position now, take it again a second later, measure the distance between them, divide by the time. This is what you would write if you were asked to build a speedometer in an afternoon.</p>
+<p>It works, and it is what Self Speed falls back to when nothing better is available. But it inherits every bit of the position error. If each fix is accurate to ±5 m and they arrive a second apart, a stationary phone can appear to move up to 10 m in a second — a phantom 36 km/h.</p>
+<p>That error does not shrink with speed, so it matters most exactly when you are moving slowly and want precision.</p>
+<h2 id="the-good-method-doppler-shift">The good method: Doppler shift</h2>
+<p>GPS satellites transmit at a known carrier frequency. As you move relative to a satellite, the frequency you receive is shifted — the same effect that makes an ambulance siren drop in pitch as it passes.</p>
+<p>Your receiver measures that shift for every satellite it can see, typically eight to twelve. Each gives one equation relating your velocity to the geometry of that satellite. Solve the system and you get your velocity vector directly.</p>
+<p>The crucial point: <strong>this never uses your position at all.</strong> It is an independent measurement, derived from frequency rather than from location, so it does not inherit position error.</p>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Position differencing</th><th>Doppler</th></tr></thead><tbody><tr><td>Measures</td><td>Distance ÷ time</td><td>Carrier frequency shift</td></tr><tr><td>Typical error</td><td>1 – 5 m/s</td><td>0.05 – 0.1 m/s</td></tr><tr><td>Needs previous fix</td><td>Yes</td><td>No</td></tr><tr><td>Accurate when stationary</td><td>No</td><td>Yes</td></tr><tr><td>Degrades in urban canyons</td><td>Yes</td><td>Yes, less so</td></tr></tbody></table></div>
+<p>Doppler velocity is roughly <strong>fifty times more accurate</strong> than differencing positions. A good receiver knows your speed to within a few centimetres per second.</p>
+<h2 id="which-one-is-your-phone-using">Which one is your phone using?</h2>
+<p>The Web Geolocation API exposes this as <code>coords.speed</code>. When the receiver has computed a Doppler velocity, that field contains it in metres per second. When it has not, the field is empty.</p>
+<p>Self Speed uses <code>coords.speed</code> whenever it is present and falls back to differencing positions when it is not. The status line under the gauge tells you which is active — it reads <em>GPS speed</em> for Doppler, <em>derived from position</em> for the fallback.</p>
+<p>In practice: <strong>phones report Doppler speed, laptops and desktops do not.</strong> A laptop has no GPS chip at all; it derives position from nearby wifi networks, which produces no velocity, which is why a desktop browser shows the fallback and a reading that hovers near zero.</p>
+<h2 id="why-your-reading-still-jumps-around">Why your reading still jumps around</h2>
+<p>Even with Doppler, the displayed number moves. Three reasons:</p>
+<ol><li><strong>Satellite geometry changes.</strong> Satellites set below the horizon and new ones rise. Each change slightly alters the solution.</li><li><strong>Multipath.</strong> Signals bouncing off buildings arrive late, corrupting both position and velocity. This is why urban canyons are difficult.</li><li><strong>The receiver is filtering.</strong> Most chipsets apply their own smoothing, and its behaviour changes with signal quality.</li></ol>
+<p>Self Speed averages readings over a 2.5 second window, which removes most visible jitter while still responding within a couple of seconds to real changes.</p>
+<h2 id="a-brief-history">A brief history</h2>
+<p>Mechanical speedometers, patented by Otto Schulze in 1902, used a flexible cable spinning a magnet inside an aluminium cup. Eddy currents dragged the cup around against a hairspring, and the needle settled where the two forces balanced. Every car used this for eighty years.</p>
+<p>Electronic speedometers replaced the cable with a rotation sensor and a microcontroller, but the principle was unchanged: count wheel rotations, multiply by an assumed circumference.</p>
+<p>GPS broke that chain entirely. For the first time, speed could be measured without touching the vehicle — no calibration, no assumption about tyre size, no mechanical wear. What you get is your genuine movement across the ground.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

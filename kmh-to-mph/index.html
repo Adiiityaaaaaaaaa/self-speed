@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>km/h to mph Converter — Kilometres per Hour to Miles per Hour</title>
+<meta name="description" content="Convert km/h to mph instantly, with a full conversion table, the exact formula, and a mental-arithmetic trick that gets you within 2 percent.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/kmh-to-mph/">
+<meta property="og:title" content="km/h to mph Converter — Kilometres per Hour to Miles per Hour">
+<meta property="og:description" content="Convert km/h to mph instantly, with a full conversion table, the exact formula, and a mental-arithmetic trick that gets you within 2 percent.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>km/h to mph</h1>
+<p><strong>Multiply by 0.621371.</strong> To go the other way, multiply mph by 1.609344.</p>
+<div class="table-wrap"><table><thead><tr><th>km/h</th><th>mph</th></tr></thead><tbody><tr><td>5</td><td>3.1</td></tr><tr><td>10</td><td>6.2</td></tr><tr><td>20</td><td>12.4</td></tr><tr><td>30</td><td>18.6</td></tr><tr><td>40</td><td>24.9</td></tr><tr><td>50</td><td>31.1</td></tr><tr><td>60</td><td>37.3</td></tr><tr><td>70</td><td>43.5</td></tr><tr><td>80</td><td>49.7</td></tr><tr><td>90</td><td>55.9</td></tr><tr><td>100</td><td>62.1</td></tr><tr><td>110</td><td>68.4</td></tr><tr><td>120</td><td>74.6</td></tr><tr><td>130</td><td>80.8</td></tr><tr><td>140</td><td>87.0</td></tr><tr><td>160</td><td>99.4</td></tr><tr><td>180</td><td>111.8</td></tr><tr><td>200</td><td>124.3</td></tr></tbody></table></div>
+<h2 id="the-formula">The formula</h2>
+<blockquote><p>mph = km/h × 0.621371</p></blockquote>
+<p>The number comes from the definition of the mile. One international mile is exactly 1,609.344 metres, fixed by international agreement in 1959. So one kilometre is 1 ÷ 1.609344 = 0.621371 miles, and the ratio carries directly into speeds because both units share the same hour.</p>
+<h2 id="doing-it-in-your-head">Doing it in your head</h2>
+<p>The reliable trick is <strong>multiply by 6 and drop a digit</strong>, which approximates 0.6 rather than 0.621 — so it under-reads by about 3 percent.</p>
+<ul><li>100 km/h → 100 × 6 = 600 → 60 mph (true answer 62.1)</li><li>50 km/h → 300 → 30 mph (true 31.1)</li></ul>
+<p>For better accuracy, add back a twentieth: 60 + 3 = 63, against a true 62.1.</p>
+<p>A neater trick uses the Fibonacci sequence, because consecutive Fibonacci numbers approach the golden ratio 1.618, which is remarkably close to 1.609:</p>
+<ul><li>5 km/h ≈ 3 mph, 8 km/h ≈ 5 mph, 13 km/h ≈ 8 mph, 21 km/h ≈ 13 mph</li></ul>
+<p>These are accurate to under 1 percent.</p>
+<h2 id="speed-limits-in-each-system">Speed limits in each system</h2>
+<div class="table-wrap"><table><thead><tr><th>Road type</th><th>Metric</th><th>Imperial</th></tr></thead><tbody><tr><td>Residential</td><td>30 – 50 km/h</td><td>20 – 30 mph</td></tr><tr><td>Urban</td><td>50 km/h</td><td>30 mph</td></tr><tr><td>Rural single carriageway</td><td>80 – 100 km/h</td><td>50 – 60 mph</td></tr><tr><td>Motorway (UK)</td><td>113 km/h</td><td>70 mph</td></tr><tr><td>Motorway (most of Europe)</td><td>120 – 130 km/h</td><td>75 – 81 mph</td></tr><tr><td>Interstate (US)</td><td>105 – 137 km/h</td><td>65 – 85 mph</td></tr></tbody></table></div>
+<h2 id="which-countries-use-which">Which countries use which</h2>
+<p>Only three countries use miles per hour on road signs as standard: the <strong>United Kingdom</strong>, the <strong>United States</strong> and <strong>Liberia</strong>. Everywhere else uses km/h.</p>
+<p>The UK is a hybrid worth watching out for — road signs and car speedometers are in mph, but fuel is sold in litres and distances in official documents are often metric.</p>
+<p>Self Speed switches between km/h, mph, m/s and knots with one tap, so you never have to convert anything yourself.</p>
+<h2 id="where-the-kilometre-came-from">Where the kilometre came from</h2>
+<p>The metre was defined in 1793 by the French Academy of Sciences as one ten-millionth of the distance from the North Pole to the equator, measured along the meridian through Paris. The survey took seven years and, as it turned out, contained a small error — the Earth is slightly flatter than the surveyors assumed — so the original metre was about 0.2 mm short.</p>
+<p>Rather than redo it, the length was kept and progressively redefined: first against a platinum bar, then against a wavelength of krypton-86 light, and since 1983 in terms of the speed of light, which is now <em>defined</em> as exactly 299,792,458 metres per second. The metre is whatever distance light covers in 1/299,792,458 of a second.</p>
+<p>The mile has an older and messier lineage. It descends from the Roman <em>mille passus</em>, a thousand paces of two steps each, roughly 1,480 m. English statute law in 1593 fixed the mile at eight furlongs — a furlong being the length of a ploughed furrow — giving 5,280 feet, which is why the number is so unmemorable.</p>
+<h2 id="conversions-in-sport">Conversions in sport</h2>
+<p>Athletics runs almost entirely in metric, but a few imperial distances survive and the comparisons are a common source of confusion:</p>
+<div class="table-wrap"><table><thead><tr><th>Event</th><th>Distance</th><th>Imperial equivalent</th></tr></thead><tbody><tr><td>1,500 m</td><td>1.5 km</td><td>0.93 miles</td></tr><tr><td>Mile</td><td>1.609 km</td><td>1 mile</td></tr><tr><td>5,000 m</td><td>5 km</td><td>3.11 miles</td></tr><tr><td>10,000 m</td><td>10 km</td><td>6.21 miles</td></tr><tr><td>Half marathon</td><td>21.098 km</td><td>13.11 miles</td></tr><tr><td>Marathon</td><td>42.195 km</td><td>26.22 miles</td></tr></tbody></table></div>
+<p>The gap between 1,500 m and the mile is 109 m, which is why the two records are kept separately and why the "four-minute mile" has no metric equivalent.</p>
+<h2 id="frequently-asked">Frequently asked</h2>
+<h3>Is 100 km/h the same as 60 mph?</h3>
+<p>Close but not equal. 100 km/h is 62.1 mph. The rough equivalence is useful for estimating, but at motorway speeds a 2 mph error is enough to matter near a limit.</p>
+<h3>What is 1 km/h in mph?</h3>
+<p>0.621 mph. Conversely 1 mph is 1.609 km/h.</p>
+<h3>Why do some speedometers show both?</h3>
+<p>Cars sold in markets that border a country using the other system usually carry both scales. Canadian and Mexican cars often show mph inside the km/h ring for drivers crossing into the United States, and UK-market cars show km/h for drivers taking the ferry to France.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

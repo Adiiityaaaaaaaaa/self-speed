@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Running Speed and Pace Tracker — GPS Pace in Your Browser</title>
+<meta name="description" content="Track running speed and pace with GPS in your browser. Live speed, distance, moving average and GPX export. Free, no app install, nothing uploaded.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/running-speed-tracker/">
+<meta property="og:title" content="Running Speed and Pace Tracker — GPS Pace in Your Browser">
+<meta property="og:description" content="Track running speed and pace with GPS in your browser. Live speed, distance, moving average and GPX export. Free, no app install, nothing uploaded.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/" class="here">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Running speed tracker</h1>
+<p>Runners think in pace — minutes per kilometre — while speedometers think in km/h. They are the same information inverted, and converting between them in your head mid-run is genuinely annoying. This page gives you the conversion and a tracker that handles the rest.</p>
+<h2 id="speed-to-pace-converted">Speed to pace, converted</h2>
+<div class="table-wrap"><table><thead><tr><th>Speed (km/h)</th><th>Pace (min/km)</th><th>Pace (min/mile)</th><th>Feels like</th></tr></thead><tbody><tr><td>8.0</td><td>7:30</td><td>12:04</td><td>Easy jog</td></tr><tr><td>10.0</td><td>6:00</td><td>9:39</td><td>Steady run</td></tr><tr><td>12.0</td><td>5:00</td><td>8:03</td><td>Tempo</td></tr><tr><td>14.0</td><td>4:17</td><td>6:54</td><td>Threshold</td></tr><tr><td>16.0</td><td>3:45</td><td>6:02</td><td>5K race pace</td></tr><tr><td>18.0</td><td>3:20</td><td>5:22</td><td>Fast</td></tr><tr><td>20.0</td><td>3:00</td><td>4:49</td><td>Elite territory</td></tr></tbody></table></div>
+<p>The arithmetic: <strong>pace in min/km = 60 ÷ speed in km/h</strong>. A 5:00 min/km pace is exactly 12 km/h. Marathon world record pace is roughly 21 km/h, or 2:50 min/km.</p>
+<h2 id="why-gps-pace-jumps-around">Why GPS pace jumps around</h2>
+<p>If you have ever glanced at a running watch and seen your pace swing from 4:30 to 6:10 within a few seconds on steady effort, that is not you — it is the GPS.</p>
+<p>A consumer GPS fix has a horizontal error of several metres. When your position is re-estimated every second, a 3 m error in either direction translates to a large apparent speed change over such a short interval. The error is random, so it averages out over distance but looks dramatic instant to instant.</p>
+<p>Self Speed smooths readings over a 2.5 second window, which removes most of the jitter while still responding quickly when you genuinely change pace. Your total distance stays accurate because the errors cancel over time.</p>
+<h2 id="track-running-is-the-hard-case">Track running is the hard case</h2>
+<p>A 400 m track is the worst possible environment for GPS pace. The bends are tight, you are never travelling in a straight line for long, and the systematic error of cutting or widening the corner is comparable to the lane width itself.</p>
+<p>For track sessions, trust the track. Time your laps with a watch — 400 m is 400 m, and a stopwatch has no error budget. Use GPS for road and trail.</p>
+<h2 id="getting-a-usable-reading">Getting a usable reading</h2>
+<ol><li><strong>Start outdoors and wait.</strong> Let accuracy settle to ±5–10 m before you run.</li></ol>
+<p>Starting inside a building and walking out gives you a bad first minute.</p>
+<ol><li><strong>Arm swing adds noise.</strong> A phone in your hand moves back and forth roughly a</li></ol>
+<p>metre every stride. An armband or waist belt gives cleaner data.</p>
+<ol><li><strong>Keep it in the foreground.</strong> Browsers stop geolocation when the page is</li></ol>
+<p>hidden, so don't switch apps mid-run.</p>
+<h2 id="exporting-your-run">Exporting your run</h2>
+<p><strong>Export GPX</strong> produces a standard file that Strava, Garmin Connect and every other running platform will import directly, preserving your route and splits.</p>
+<h2 id="pace-for-common-race-targets">Pace for common race targets</h2>
+<p>Working backwards from a finishing time is the most useful thing a pace table does.</p>
+<div class="table-wrap"><table><thead><tr><th>Race</th><th>Target</th><th>Pace (min/km)</th><th>Speed (km/h)</th></tr></thead><tbody><tr><td>5K</td><td>25:00</td><td>5:00</td><td>12.0</td></tr><tr><td>5K</td><td>20:00</td><td>4:00</td><td>15.0</td></tr><tr><td>10K</td><td>60:00</td><td>6:00</td><td>10.0</td></tr><tr><td>10K</td><td>45:00</td><td>4:30</td><td>13.3</td></tr><tr><td>Half marathon</td><td>2:00:00</td><td>5:41</td><td>10.5</td></tr><tr><td>Half marathon</td><td>1:30:00</td><td>4:16</td><td>14.1</td></tr><tr><td>Marathon</td><td>4:00:00</td><td>5:41</td><td>10.5</td></tr><tr><td>Marathon</td><td>3:00:00</td><td>4:16</td><td>14.1</td></tr></tbody></table></div>
+<p>A useful symmetry: a half marathon in 1:30 and a marathon in 3:00 are the same pace. Sustaining it for twice the distance is the entire difficulty.</p>
+<h2 id="why-your-watch-and-your-phone-disagree">Why your watch and your phone disagree</h2>
+<p>Two GPS devices on the same run routinely report distances differing by 1 to 2 percent, occasionally more. Neither is broken.</p>
+<ul><li><strong>Sampling rate.</strong> A device recording every second captures more of a winding path than one recording every five seconds, which cuts corners and under-reads.</li><li><strong>Filtering.</strong> Each manufacturer smooths the raw track differently. Aggressive smoothing shortens distance; light smoothing inflates it with GPS noise.</li><li><strong>Antenna position.</strong> A wrist swings through roughly a metre each stride. A phone on your waist does not.</li></ul>
+<p>For training, consistency matters more than absolute truth. Use one device and compare it against itself.</p>
+<h2 id="treadmills">Treadmills</h2>
+<p>GPS cannot measure treadmill running at all — you are not moving relative to the ground, so your speed over ground genuinely is zero. The machine's own readout is the only measurement available, and it is calibrated to belt speed, which drifts as the belt wears and stretches.</p>
+<h2 id="frequently-asked">Frequently asked</h2>
+<h3>What is a good running pace?</h3>
+<p>For a recreational runner, 6:00 min/km is a comfortable steady pace and 5:00 is a solid tempo. Context matters far more than the number — terrain, heat, humidity and elevation all shift it substantially.</p>
+<h3>Why does my pace look wrong at the start?</h3>
+<p>A cold GPS start takes 30 to 60 seconds to settle. Beginning your run the instant you press go means the first minute is computed from a poor fix. Wait for the accuracy figure to drop below about 10 m.</p>
+<h3>Can I track a run with no signal?</h3>
+<p>Yes. GPS needs no mobile data — only a view of the sky. Load the page before you set off and it works offline for the whole run.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

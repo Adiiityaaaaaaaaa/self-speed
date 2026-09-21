@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Ski Speed Tracker — Measure Your Downhill Speed with GPS</title>
+<meta name="description" content="Track your skiing or snowboarding speed with GPS in your browser. Live speed, max speed, distance and vertical. Works offline on the mountain, no app install.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/ski-speed-tracker/">
+<meta property="og:title" content="Ski Speed Tracker — Measure Your Downhill Speed with GPS">
+<meta property="og:description" content="Track your skiing or snowboarding speed with GPS in your browser. Live speed, max speed, distance and vertical. Works offline on the mountain, no app install.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/" class="here">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Ski speed tracker</h1>
+<p>Everyone overestimates how fast they ski. Put a number on it: open Self Speed at the top of the run, put the phone in a chest pocket, and check your max at the bottom. Works offline, which matters on a mountain with no signal.</p>
+<h2 id="how-fast-do-people-actually-ski">How fast do people actually ski?</h2>
+<div class="table-wrap"><table><thead><tr><th>Skier</th><th>Typical top speed</th></tr></thead><tbody><tr><td>Cautious beginner, green run</td><td>15 – 25 km/h</td></tr><tr><td>Confident intermediate, blue</td><td>30 – 45 km/h</td></tr><tr><td>Strong recreational, red run</td><td>50 – 70 km/h</td></tr><tr><td>Expert, carving a steep pitch</td><td>70 – 90 km/h</td></tr><tr><td>World Cup downhill racer</td><td>110 – 140 km/h</td></tr><tr><td>Speed skiing world record</td><td>255 km/h</td></tr></tbody></table></div>
+<p>Most people who guess "about 80" are doing 45. The perception of speed scales with how close the snow is to your face, not with the actual number.</p>
+<h2 id="cold-kills-phone-batteries">Cold kills phone batteries</h2>
+<p>This is the practical problem on the mountain, and it is worse than most people expect. Lithium-ion capacity drops sharply below freezing — a phone showing 60% in a warm gondola can shut down within minutes of being exposed at −10 °C.</p>
+<ul><li>Keep the phone in an <strong>inside</strong> pocket, against body warmth, not an outer shell</li></ul>
+<p>pocket.</p>
+<ul><li>A phone that shuts down from cold is usually not damaged. Warm it up slowly</li></ul>
+<p>and it will restart.</p>
+<ul><li>Continuous GPS plus a lit screen plus cold is the worst combination for</li></ul>
+<p>battery life. Expect two to three hours, not a full day.</p>
+<h2 id="offline-is-the-point">Offline is the point</h2>
+<p>Ski areas frequently have no usable mobile data. Self Speed caches itself in your browser the first time you load it, so opening it later with no signal still works — the GPS receiver in your phone does not need a data connection to get a fix, only to download the page.</p>
+<p><strong>Load it once on the hotel wifi before you go up.</strong></p>
+<h2 id="accuracy-in-the-mountains">Accuracy in the mountains</h2>
+<p>Mountains are a harder GPS environment than open ground. A steep valley wall blocks part of the sky, which reduces the number of visible satellites and degrades the fix. In a narrow couloir or dense trees, expect the accuracy figure to climb and the speed reading to get noisy.</p>
+<p>Wide open pistes above the treeline give excellent readings. Tree-lined runs at the bottom of the mountain give the worst.</p>
+<h2 id="vertical-descent">Vertical descent</h2>
+<p>GPS altitude is substantially less accurate than horizontal position — typically two to three times worse. For a rough sense of vertical metres it is fine; for anything you would compare between days, use a watch with a barometric altimeter, which measures air pressure directly.</p>
+<h2 id="safety">Safety</h2>
+<p>Read it at the bottom, not on the way down. Skiing while looking at a screen is how people hit other people. Max speed is recorded automatically — you do not need to watch it happen.</p>
+<h2 id="why-skiing-feels-faster-than-it-is">Why skiing feels faster than it is</h2>
+<p>Perceived speed is driven by how close the ground is and how much is moving in your peripheral vision, not by actual velocity. Skiing puts your eyes about a metre above a surface rushing past, with trees and poles flicking by at the edge of vision.</p>
+<p>A car at 90 km/h feels calm; you are sitting in a padded box, well insulated from the road. On skis, 45 km/h feels alarming. This is why almost everyone overestimates — the sensation is real, the number is not what they assume.</p>
+<h2 id="what-actually-limits-your-speed">What actually limits your speed</h2>
+<p><strong>Snow conditions</strong> matter more than technique. Firm, cold, groomed piste in the morning is fast. Soft afternoon slush can halve your top speed for the same effort and pitch.</p>
+<p><strong>Gradient</strong> sets the ceiling. A gentle blue run simply will not produce 70 km/h no matter how well you ski.</p>
+<p><strong>Air resistance</strong> rises with the square of speed, so each additional km/h costs disproportionately more. It is why speed skiers adopt an extreme tuck and wear smooth suits and aerodynamic helmets.</p>
+<p><strong>Ski length and tune</strong> matter at the top end. Longer skis are more stable at speed, and a fresh edge and base grind makes a measurable difference.</p>
+<h2 id="safety-seriously">Safety, seriously</h2>
+<p>Speed is the dominant factor in the severity of skiing collisions. The FIS rules of conduct place responsibility for avoiding a collision on the uphill skier, which means whoever is going faster carries the duty of care.</p>
+<p>Skiing fast is only defensible where you have clear sightlines, a wide empty piste and the skill to stop. Chasing a number on a busy run is how people get hurt — and the person you hit did not consent to your experiment.</p>
+<p>Read your maximum at the bottom of the run. It is recorded automatically.</p>
+<h2 id="frequently-asked">Frequently asked</h2>
+<h3>How fast do beginners ski?</h3>
+<p>15 to 25 km/h on a green run. It feels considerably faster than that.</p>
+<h3>What is the fastest recorded skiing speed?</h3>
+<p>Ivan Origone set the speed skiing record at 254.958 km/h at Vars in 2016, on a purpose-built course with a gradient close to 45 degrees. This is a specialist discipline with dedicated equipment and bears no relation to piste skiing.</p>
+<h3>Will it work with the phone in my pocket?</h3>
+<p>Yes, though accuracy drops with your body between the phone and the sky. An inside chest pocket is the best compromise between signal and keeping the battery warm.</p>
+<h3>Does it work without mobile signal?</h3>
+<p>Yes, once loaded. GPS needs no data connection. Open the page on wifi before you go up.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

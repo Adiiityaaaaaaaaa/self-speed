@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Train and Transit Speedometer — How Fast Is This Train Going?</title>
+<meta name="description" content="Find out how fast your train, bus, metro or plane is actually moving, using GPS in your browser. Free, no install, works from a window seat.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/train-speedometer/">
+<meta property="og:title" content="Train and Transit Speedometer — How Fast Is This Train Going?">
+<meta property="og:description" content="Find out how fast your train, bus, metro or plane is actually moving, using GPS in your browser. Free, no install, works from a window seat.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/" class="here">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Train and transit speedometer</h1>
+<p>How fast is this train actually going? Put your phone near the window, press start, and find out. It works on trains, buses, ferries and — with caveats — aircraft.</p>
+<h2 id="what-to-expect">What to expect</h2>
+<div class="table-wrap"><table><thead><tr><th>Service</th><th>Typical cruising speed</th></tr></thead><tbody><tr><td>City bus</td><td>20 – 40 km/h</td></tr><tr><td>Metro / underground</td><td>30 – 60 km/h</td></tr><tr><td>Suburban commuter rail</td><td>60 – 100 km/h</td></tr><tr><td>Intercity express</td><td>120 – 160 km/h</td></tr><tr><td>High-speed rail (Shinkansen, TGV, ICE)</td><td>250 – 320 km/h</td></tr><tr><td>Commercial airliner, cruise</td><td>800 – 950 km/h</td></tr></tbody></table></div>
+<p>A note on the last row: most phone GPS chips are subject to <strong>CoCom limits</strong>, an export-control restriction that disables the receiver above roughly 1,900 km/h <em>and</em> 18,000 m altitude. Airliners sit below both thresholds, so GPS generally works fine at cruise — the real obstacle is getting a clear view of the sky through a small, often metallised window.</p>
+<h2 id="why-it-works-badly-inside-a-train">Why it works badly inside a train</h2>
+<p>A train carriage is a metal box, and metal blocks GPS signals. Your phone needs line of sight to satellites, and the roof and walls provide none.</p>
+<ul><li><strong>Sit by the window</strong> and rest the phone against or near the glass.</li><li><strong>Window films matter.</strong> Many modern trains use metallised or heat-reflective</li></ul>
+<p>glazing that attenuates GPS significantly. Some carriages simply will not work.</p>
+<ul><li><strong>Tunnels</strong> cut the fix completely. Readings resume after a short reacquisition</li></ul>
+<p>delay on the other side.</p>
+<ul><li><strong>Double-deck carriages</strong> are worse on the lower deck.</li></ul>
+<p>If the Accuracy tile is showing hundreds of metres, you are not getting a real fix and the speed figure is meaningless.</p>
+<h2 id="speed-is-not-the-same-as-average-journey-speed">Speed is not the same as average journey speed</h2>
+<p>A train that cruises at 160 km/h rarely averages anything close to it. Station stops, signal checks, speed restrictions and approach curves pull the average down hard — a service averaging 100 km/h door to door while peaking at 160 is entirely normal.</p>
+<p>Self Speed shows both: the live reading for the cruising figure, and a moving average that excludes time spent stationary at platforms.</p>
+<h2 id="motion-sickness">Motion sickness</h2>
+<p>Reading a screen on a moving vehicle is a reliable way to feel unwell, because your inner ear reports motion your eyes do not. Glance, don't stare — and the max speed is recorded for you anyway.</p>
+<h2 id="getting-a-fix-in-each-kind-of-vehicle">Getting a fix in each kind of vehicle</h2>
+<h3>Trains</h3>
+<p>The hardest case, because a carriage is effectively a Faraday cage. Press the phone flat against the window if you can. Older rolling stock with plain glass works noticeably better than modern air-conditioned stock with metallised glazing, which can block the signal almost completely.</p>
+<p>High-speed lines are often in cuttings, tunnels and noise-barrier corridors, which is unfortunate given they are the services whose speed you most want to measure. Expect intermittent readings.</p>
+<h3>Buses and coaches</h3>
+<p>Generally better than trains. Buses have more glass relative to their size and sit higher, and urban routes rarely reach speeds where you need precision. A window seat gets a usable fix in most cases.</p>
+<h3>Ferries</h3>
+<p>Excellent. Open deck, unobstructed sky, no interference — close to ideal GPS conditions. Switch the units to knots for the reading the crew would use. See <a href="/self-speed/boat-speedometer-knots/">boat speedometer</a>.</p>
+<h3>Aircraft</h3>
+<p>Possible but awkward. Cabin windows are small, deeply recessed, and on many aircraft treated with coatings that attenuate the signal. You need a window seat and patience, and a fix acquired on the ground before takeoff is far more likely to survive than one attempted at altitude.</p>
+<p>Note also that most airlines' rules require flight mode, which on many devices disables GPS along with the radios. Some devices let you re-enable location separately in flight mode; check your own before assuming.</p>
+<h2 id="reading-the-numbers-sensibly">Reading the numbers sensibly</h2>
+<p>A common confusion is comparing a live reading against a published service speed. These measure different things:</p>
+<div class="table-wrap"><table><thead><tr><th>Figure</th><th>What it means</th></tr></thead><tbody><tr><td>Live GPS speed</td><td>Your actual speed at this instant</td></tr><tr><td>Line speed</td><td>The maximum the track is signalled for</td></tr><tr><td>Service speed</td><td>What the train is scheduled to run at</td></tr><tr><td>Average journey speed</td><td>Total distance divided by total time, stops included</td></tr></tbody></table></div>
+<p>A service advertised as "200 km/h" spends most of its journey well below that. Line speed applies only to the sections engineered for it, and acceleration up to it takes several minutes.</p>
+<h2 id="why-the-reading-lags-a-real-change">Why the reading lags a real change</h2>
+<p>A GPS receiver applies its own filtering before reporting a velocity, and Self Speed averages over a further 2.5 seconds. The combined effect is that a sharp change — a train braking hard into a station — appears on screen a couple of seconds after you feel it. That delay is the price of a stable number, and it is a deliberate trade.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

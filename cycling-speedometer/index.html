@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Cycling Speedometer — Track Bike Speed with GPS, No Computer Needed</title>
+<meta name="description" content="Turn your phone into a cycling speedometer. Live speed, average, distance and max, plus GPX export to Strava or Garmin. Free, works offline, no app install.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/cycling-speedometer/">
+<meta property="og:title" content="Cycling Speedometer — Track Bike Speed with GPS, No Computer Needed">
+<meta property="og:description" content="Turn your phone into a cycling speedometer. Live speed, average, distance and max, plus GPX export to Strava or Garmin. Free, works offline, no app install.">
+<meta property="og:type" content="article">
+<link rel="icon" href="/self-speed/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/self-speed/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/self-speed/">
+      <img src="/self-speed/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/self-speed/">Speedometer</a><a href="/self-speed/cycling-speedometer/" class="here">Cycling</a><a href="/self-speed/running-speed-tracker/">Running</a><a href="/self-speed/car-speedometer/">Driving</a><a href="/self-speed/boat-speedometer-knots/">Boating</a><a href="/self-speed/ski-speed-tracker/">Skiing</a><a href="/self-speed/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Cycling speedometer</h1>
+<p>A bike computer costs money and needs a wheel magnet, a mount and a battery you forget to charge. Your phone already has a GPS chip that does the same job. Self Speed turns it into a cycling speedometer in one tap — live speed, average, distance, and a GPX file you can drop straight into Strava.</p>
+<h2 id="what-you-get">What you get</h2>
+<div class="table-wrap"><table><thead><tr><th>Reading</th><th>What it tells you</th></tr></thead><tbody><tr><td>Current speed</td><td>Live km/h or mph, smoothed over 2.5 seconds</td></tr><tr><td>Max speed</td><td>Your fastest moment, usually a descent</td></tr><tr><td>Average</td><td>Moving average — stops at traffic lights don't drag it down</td></tr><tr><td>Distance</td><td>Total ridden, computed from your GPS track</td></tr><tr><td>Elapsed</td><td>Time since you pressed start</td></tr><tr><td>Accuracy</td><td>How much to trust the numbers right now</td></tr></tbody></table></div>
+<h2 id="why-moving-average-matters-on-a-bike">Why moving average matters on a bike</h2>
+<p>Most cheap speedometers give you a simple average: distance divided by total time. Ride 20 km in an hour of pedalling plus 20 minutes waiting at junctions, and they report 15 km/h — which tells you nothing about how you actually rode.</p>
+<p>Self Speed excludes time spent below 0.5 m/s, so the average reflects your riding, not your city's traffic lights. The same 20 km comes back as 20 km/h, which is the number you actually want to compare week to week.</p>
+<h2 id="gps-speed-versus-wheel-sensors">GPS speed versus wheel sensors</h2>
+<p>A wheel magnet counts rotations and multiplies by a tyre circumference you typed in once. It is precise but only as correct as that number — an under-inflated tyre or a typo puts every ride out by a few percent, permanently.</p>
+<p>GPS measures your actual movement across the ground. It needs no calibration and cannot drift, but it needs sky. Under heavy tree cover or between tall buildings the fix degrades and readings get noisy.</p>
+<blockquote><p>In practice: GPS is more accurate on open roads, a wheel sensor is steadier in forests and cities. Neither is wrong; they fail in different places.</p></blockquote>
+<h2 id="getting-a-good-reading">Getting a good reading</h2>
+<ol><li><strong>Mount the phone with a view of the sky.</strong> In a jersey pocket it still works,</li></ol>
+<p>but accuracy drops. On the bars is best.</p>
+<ol><li><strong>Wait for accuracy to settle.</strong> The number in the Accuracy tile should reach</li></ol>
+<p>about ±5–15 m before you set off. A cold GPS start takes 20–60 seconds.</p>
+<ol><li><strong>Keep the screen awake.</strong> Self Speed requests a wake lock automatically, so</li></ol>
+<p>the display stays on while tracking.</p>
+<ol><li><strong>Battery.</strong> Continuous GPS is demanding. For rides over two hours, bring a</li></ol>
+<p>power bank or use a dedicated computer.</p>
+<h2 id="exporting-to-strava-or-garmin">Exporting to Strava or Garmin</h2>
+<p>Press <strong>Export GPX</strong> after your ride and you get a standard <code>.gpx</code> file with a timestamped point for every fix. That format is accepted by Strava, Garmin Connect, Komoot, RideWithGPS and essentially every mapping tool.</p>
+<p>In Strava: <em>Upload → File → choose your .gpx</em>. The ride appears with distance, elevation and your speed curve intact.</p>
+<h2 id="limitations-worth-knowing">Limitations worth knowing</h2>
+<ul><li><strong>iOS backgrounds aggressively.</strong> Lock the phone or switch apps and</li></ul>
+<p>tracking stops. Keep Self Speed in the foreground.</p>
+<ul><li><strong>Tunnels and underpasses</strong> lose the fix entirely. The reading goes grey and</li></ul>
+<p>resumes when you come out.</p>
+<ul><li><strong>Elevation from GPS is poor.</strong> Vertical accuracy is typically two to three</li></ul>
+<p>times worse than horizontal. If climbing metres matter to you, use a device with a barometric altimeter.</p>
+
+    <a class="cta" href="/self-speed/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><a href="/self-speed/how-gps-speedometers-work/">How it works</a><a href="/self-speed/is-gps-speed-accurate/">Accuracy</a><a href="/self-speed/kmh-to-mph/">km/h → mph</a><a href="/self-speed/mph-to-kmh/">mph → km/h</a><a href="/self-speed/knots-to-kmh/">knots → km/h</a><a href="/self-speed/about/">About</a><a href="/self-speed/contact/">Contact</a><a href="/self-speed/privacy/">Privacy</a><a href="/self-speed/terms/">Terms</a></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

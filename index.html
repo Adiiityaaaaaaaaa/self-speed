@@ -124,6 +124,20 @@
 
   .note{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;max-width:420px}
   .note a{color:var(--muted)}
+
+  /* ---- internal links ---- */
+  .sitenav{width:100%;border-top:1px solid var(--line);margin-top:14px;padding-top:20px}
+  .sitenav h2{font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+              color:var(--muted);margin:16px 0 8px;font-weight:600}
+  .sitenav h2:first-child{margin-top:0}
+  .sitenav .links{display:flex;flex-wrap:wrap;gap:7px}
+  .sitenav .links a{color:#a9b6cf;text-decoration:none;font-size:13px;
+                    background:var(--panel);border:1px solid var(--line);
+                    padding:6px 11px;border-radius:999px}
+  .sitenav .links a:hover{color:#fff;border-color:#35425e}
+  .sitenav .links.fine{margin-top:20px}
+  .sitenav .links.fine a{background:none;border:0;padding:4px 0;margin-right:14px;
+                         color:var(--muted);font-size:12px}
 </style>
 </head>
 <body>
@@ -187,6 +201,38 @@
     Needs GPS and a secure origin. Your location is never uploaded — everything
     is computed on your device and stored only in this browser.
   </p>
+
+  <footer class="sitenav">
+    <h2>Use it for</h2>
+    <div class="links">
+      <a href="/self-speed/cycling-speedometer/">Cycling</a>
+      <a href="/self-speed/running-speed-tracker/">Running</a>
+      <a href="/self-speed/car-speedometer/">Driving</a>
+      <a href="/self-speed/boat-speedometer-knots/">Boating</a>
+      <a href="/self-speed/ski-speed-tracker/">Skiing</a>
+      <a href="/self-speed/train-speedometer/">Trains &amp; transit</a>
+    </div>
+
+    <h2>Learn</h2>
+    <div class="links">
+      <a href="/self-speed/how-gps-speedometers-work/">How GPS speedometers work</a>
+      <a href="/self-speed/is-gps-speed-accurate/">Is GPS speed accurate?</a>
+    </div>
+
+    <h2>Convert</h2>
+    <div class="links">
+      <a href="/self-speed/kmh-to-mph/">km/h to mph</a>
+      <a href="/self-speed/mph-to-kmh/">mph to km/h</a>
+      <a href="/self-speed/knots-to-kmh/">knots to km/h</a>
+    </div>
+
+    <div class="links fine">
+      <a href="/self-speed/about/">About</a>
+      <a href="/self-speed/contact/">Contact</a>
+      <a href="/self-speed/privacy/">Privacy</a>
+      <a href="/self-speed/terms/">Terms</a>
+    </div>
+  </footer>
 </div>
 
 <script>
