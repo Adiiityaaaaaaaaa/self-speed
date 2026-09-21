@@ -4,7 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0e14">
-<title>Self Speed</title>
+<title>Self Speed — Live GPS Speedometer in Your Browser</title>
+<meta name="description" content="A free GPS speedometer that runs in your browser. Shows live speed, max, average, distance and elapsed time in km/h, mph, m/s or knots. Works offline, keeps your screen awake, and exports your track as GPX. No app install, no data leaves your device.">
+<link rel="canonical" href="https://adiiityaaaaaaaaa.github.io/self-speed/">
+<meta property="og:title" content="Self Speed — Live GPS Speedometer">
+<meta property="og:description" content="Free browser GPS speedometer. Live speed, trip history and GPX export. Nothing leaves your device.">
+<meta property="og:type" content="website">
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Self Speed">
+
 <style>
   :root{
     --bg:#0b0e14;
@@ -13,6 +26,8 @@
     --text:#e8ecf5;
     --muted:#8793ab;
     --accent:#37d67a;
+    --info:#4aa8ff;
+    --warn:#ffb23f;
     --danger:#ff5d5d;
   }
   *{box-sizing:border-box}
@@ -23,15 +38,26 @@
     color:var(--text);
     font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:24px 16px 40px;
-    gap:20px;
+    display:flex;flex-direction:column;align-items:center;
+    padding:20px 16px 48px;gap:18px;
   }
-  h1{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+  .wrap{width:min(440px,100%);display:flex;flex-direction:column;align-items:center;gap:18px}
 
-  .gauge{position:relative;width:min(340px,86vw);aspect-ratio:1/1}
+  header{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}
+  h1{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+  #install{display:none;font-size:12px;padding:7px 12px;white-space:nowrap}
+
+  /* ---- banner ---- */
+  .banner{
+    display:none;width:100%;border-radius:12px;padding:11px 13px;font-size:13px;line-height:1.5;
+    border:1px solid var(--line);background:var(--panel);
+  }
+  .banner.show{display:block}
+  .banner.warn{border-color:#5a4520;background:#221a0c;color:#ffd79a}
+  .banner.info{border-color:#22405e;background:#0e1b28;color:#a9d4ff}
+
+  /* ---- gauge ---- */
+  .gauge{position:relative;width:min(330px,84vw);aspect-ratio:1/1}
   .gauge svg{width:100%;height:100%;display:block;overflow:visible}
   .track{stroke:#1e2636;stroke-width:16;fill:none;stroke-linecap:round}
   .fill{stroke:url(#grad);stroke-width:16;fill:none;stroke-linecap:round;
@@ -40,132 +66,198 @@
   .tick.major{stroke:#5b6a8a;stroke-width:3}
   .tick-label{fill:var(--muted);font-size:11px;text-anchor:middle;dominant-baseline:middle}
 
-  .readout{
-    position:absolute;inset:0;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:2px;pointer-events:none;
-  }
-  .value{
-    font-size:clamp(56px,17vw,78px);font-weight:700;line-height:1;
-    font-variant-numeric:tabular-nums;letter-spacing:-.03em;
-  }
-  .unit{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .readout{position:absolute;inset:0;display:flex;flex-direction:column;
+           align-items:center;justify-content:center;gap:2px;pointer-events:none}
+  .value{font-size:clamp(54px,16vw,76px);font-weight:700;line-height:1;
+         font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+  .value.stale{color:var(--muted)}
+  .unit{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 
+  /* ---- units ---- */
   .units{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);
          border-radius:999px;padding:4px}
-  .units button{
-    appearance:none;border:0;background:transparent;color:var(--muted);
-    font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;cursor:pointer;
-  }
+  .units button{appearance:none;border:0;background:transparent;color:var(--muted);
+                font:inherit;font-size:13px;font-weight:600;padding:7px 14px;
+                border-radius:999px;cursor:pointer}
   .units button[aria-pressed="true"]{background:var(--accent);color:#06210f}
 
-  .stats{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
-    width:min(420px,100%);
-  }
-  .stat{
-    background:var(--panel);border:1px solid var(--line);border-radius:14px;
-    padding:12px 10px;text-align:center;
-  }
-  .stat .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .stat .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px}
+  /* ---- stats ---- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;width:100%}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+        padding:11px 8px;text-align:center;min-width:0}
+  .stat .k{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px;
+           overflow:hidden;text-overflow:ellipsis}
 
-  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:min(420px,100%)}
-  .btn{
-    appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--text);
-    font:inherit;font-weight:600;padding:12px 20px;border-radius:12px;cursor:pointer;flex:1 1 140px;
-  }
-  .btn:hover{border-color:#35425e}
+  /* ---- controls ---- */
+  .controls{display:flex;gap:9px;flex-wrap:wrap;width:100%}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--text);
+       font:inherit;font-weight:600;padding:13px 18px;border-radius:12px;cursor:pointer;flex:1 1 120px}
+  .btn:hover:not(:disabled){border-color:#35425e}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
   .btn.primary{background:var(--accent);border-color:var(--accent);color:#06210f}
   .btn.stop{background:var(--danger);border-color:var(--danger);color:#2a0505}
 
-  .status{
-    width:min(420px,100%);min-height:20px;text-align:center;font-size:13px;color:var(--muted);
-  }
+  /* ---- status ---- */
+  .status{width:100%;text-align:center;font-size:13px;color:var(--muted);min-height:20px}
   .status.error{color:var(--danger)}
   .status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
                background:var(--muted);margin-right:7px;vertical-align:middle}
   .status.live .dot{background:var(--accent);animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{50%{opacity:.25}}
+  @media (prefers-reduced-motion:reduce){
+    .status.live .dot{animation:none}
+    .fill{transition:none}
+  }
 
-  .note{max-width:420px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+  /* ---- history ---- */
+  .history{width:100%;display:none;flex-direction:column;gap:8px}
+  .history.show{display:flex}
+  .history h2{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+              margin:6px 0 0;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+  .history h2 button{appearance:none;background:none;border:0;color:var(--muted);
+                     font:inherit;font-size:11px;text-transform:none;letter-spacing:0;
+                     cursor:pointer;text-decoration:underline}
+  .trip{display:flex;justify-content:space-between;align-items:center;gap:10px;
+        background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 13px;font-size:13px}
+  .trip .when{color:var(--muted);font-size:12px}
+  .trip .nums{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+  .note{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;max-width:420px}
+  .note a{color:var(--muted)}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<h1>Self Speed</h1>
+  <header>
+    <h1>Self Speed</h1>
+    <button class="btn" id="install" type="button">Install app</button>
+  </header>
 
-<div class="gauge">
-  <svg viewBox="0 0 280 280" aria-hidden="true">
-    <defs>
-      <linearGradient id="grad" x1="0" y1="1" x2="1" y2="0">
-        <stop offset="0%"   stop-color="#4aa8ff"/>
-        <stop offset="55%"  stop-color="#37d67a"/>
-        <stop offset="100%" stop-color="#ffb23f"/>
-      </linearGradient>
-    </defs>
-    <g id="ticks"></g>
-    <path id="track" class="track"></path>
-    <path id="fill"  class="fill"></path>
-  </svg>
+  <div class="banner" id="banner"></div>
 
-  <div class="readout">
-    <div class="value" id="value">--</div>
-    <div class="unit"  id="unitLabel">km/h</div>
+  <div class="gauge">
+    <svg viewBox="0 0 280 280" aria-hidden="true">
+      <defs>
+        <linearGradient id="grad" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#4aa8ff"/>
+          <stop offset="55%"  stop-color="#37d67a"/>
+          <stop offset="100%" stop-color="#ffb23f"/>
+        </linearGradient>
+      </defs>
+      <g id="ticks"></g>
+      <path id="track" class="track"></path>
+      <path id="fill"  class="fill"></path>
+    </svg>
+    <div class="readout">
+      <div class="value" id="value" role="status" aria-live="polite">--</div>
+      <div class="unit" id="unitLabel">km/h</div>
+    </div>
   </div>
+
+  <div class="units" role="group" aria-label="Speed units">
+    <button data-unit="kmh" aria-pressed="true">km/h</button>
+    <button data-unit="mph" aria-pressed="false">mph</button>
+    <button data-unit="ms"  aria-pressed="false">m/s</button>
+    <button data-unit="kn"  aria-pressed="false">knots</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Max</div><div class="v" id="maxSpeed">--</div></div>
+    <div class="stat"><div class="k">Average</div><div class="v" id="avgSpeed">--</div></div>
+    <div class="stat"><div class="k">Distance</div><div class="v" id="distance">--</div></div>
+    <div class="stat"><div class="k">Elapsed</div><div class="v" id="elapsed">--</div></div>
+    <div class="stat"><div class="k">Accuracy</div><div class="v" id="accuracy">--</div></div>
+    <div class="stat"><div class="k">Points</div><div class="v" id="points">--</div></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn primary" id="toggle" type="button">Start tracking</button>
+    <button class="btn" id="reset" type="button">Reset</button>
+    <button class="btn" id="export" type="button" disabled>Export GPX</button>
+  </div>
+
+  <div class="status" id="status"><span class="dot"></span>Idle — press start and allow location access.</div>
+
+  <section class="history" id="history">
+    <h2>Recent trips <button type="button" id="clearHistory">Clear</button></h2>
+    <div id="tripList"></div>
+  </section>
+
+  <p class="note">
+    Needs GPS and a secure origin. Your location is never uploaded — everything
+    is computed on your device and stored only in this browser.
+  </p>
 </div>
-
-<div class="units" role="group" aria-label="Units">
-  <button data-unit="kmh" aria-pressed="true">km/h</button>
-  <button data-unit="mph" aria-pressed="false">mph</button>
-  <button data-unit="ms"  aria-pressed="false">m/s</button>
-  <button data-unit="kn"  aria-pressed="false">knots</button>
-</div>
-
-<div class="stats">
-  <div class="stat"><div class="k">Max</div><div class="v" id="maxSpeed">--</div></div>
-  <div class="stat"><div class="k">Average</div><div class="v" id="avgSpeed">--</div></div>
-  <div class="stat"><div class="k">Distance</div><div class="v" id="distance">--</div></div>
-</div>
-
-<div class="controls">
-  <button class="btn primary" id="toggle">Start tracking</button>
-  <button class="btn" id="reset">Reset</button>
-</div>
-
-<div class="status" id="status"><span class="dot"></span>Idle &mdash; press start and allow location access.</div>
-
-<p class="note">
-  Needs GPS and a secure origin (<code>https://</code> or <code>localhost</code>).
-  Accuracy is best outdoors on a phone; laptops often report position from Wi-Fi and no speed at all.
-</p>
 
 <script>
 (() => {
   'use strict';
 
-  // ---- unit definitions (all speeds handled internally in m/s) --------------
+  // ---------------------------------------------------------------- constants
   const UNITS = {
     kmh: { label: 'km/h',  speed: 3.6,      decimals: 0 },
     mph: { label: 'mph',   speed: 2.236936, decimals: 0 },
     ms:  { label: 'm/s',   speed: 1,        decimals: 1 },
     kn:  { label: 'knots', speed: 1.943844, decimals: 1 },
   };
-  // Top of the gauge scale, expressed in each unit.
   const SCALE_MAX = { kmh: 120, mph: 80, ms: 35, kn: 70 };
 
+  const SMOOTH_MS   = 2500;   // rolling average window
+  const MOVING_MS   = 0.5;    // m/s below which we count as stationary
+  const STALE_MS    = 6000;   // no fix for this long => readout goes stale
+  const POOR_ACC_M  = 200;    // accuracy worse than this means no real GPS
+  const MAX_POINTS  = 20000;  // cap the recorded track
+  const LS_TRIPS    = 'selfspeed.trips';
+  const LS_UNIT     = 'selfspeed.unit';
+
+  // ------------------------------------------------------------------- state
   let unit = 'kmh';
+  let watchId = null;
+  let wakeLock = null;
+  let lastFix = null;       // { lat, lon, t }
+  let lastFixAt = 0;
+  let currentSpeed = 0;     // m/s, smoothed
+  let maxSpeed = 0;         // m/s
+  let distance = 0;         // metres
+  let movingTime = 0;       // seconds above MOVING_MS
+  let startedAt = 0;
+  let lastAccuracy = null;
+  let warnedPoorAccuracy = false;
+  let deferredInstall = null;
+  const samples = [];       // { t, v } for smoothing
+  const track = [];         // recorded GPX points
 
   const $ = (id) => document.getElementById(id);
   const el = {
-    value: $('value'), unitLabel: $('unitLabel'), max: $('maxSpeed'),
-    avg: $('avgSpeed'), dist: $('distance'), status: $('status'),
-    toggle: $('toggle'), reset: $('reset'), fill: $('fill'),
-    track: $('track'), ticks: $('ticks'),
+    value: $('value'), unitLabel: $('unitLabel'), max: $('maxSpeed'), avg: $('avgSpeed'),
+    dist: $('distance'), elapsed: $('elapsed'), accuracy: $('accuracy'), points: $('points'),
+    status: $('status'), toggle: $('toggle'), reset: $('reset'), exportBtn: $('export'),
+    fill: $('fill'), trackPath: $('track'), ticks: $('ticks'), banner: $('banner'),
+    install: $('install'), history: $('history'), tripList: $('tripList'),
+    clearHistory: $('clearHistory'),
   };
 
-  // ---- gauge geometry ------------------------------------------------------
-  const CX = 140, CY = 144, R = 112;
-  const START = 150, SWEEP = 240;          // 150deg -> 390deg, leaving a gap at the bottom
+  // --------------------------------------------------------- safe localStorage
+  // Private windows and blocked site data make these throw; never let that
+  // take the app down.
+  const store = {
+    get(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw === null ? fallback : JSON.parse(raw);
+      } catch (e) { return fallback; }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+      catch (e) { return false; }
+    },
+  };
+
+  // ------------------------------------------------------------ gauge drawing
+  const CX = 140, CY = 142, R = 112;
+  const START = 240, SWEEP = 240;        // gap centred at the bottom
   const ARC_LEN = 2 * Math.PI * R * (SWEEP / 360);
 
   const polar = (deg, r = R) => {
@@ -182,77 +274,87 @@
 
   function drawTicks() {
     const step = SCALE_MAX[unit] / 8;
-    let svg = '';
+    let out = '';
     for (let i = 0; i <= 8; i++) {
       const deg = START + (SWEEP * i) / 8;
       const major = i % 2 === 0;
       const [ax, ay] = polar(deg, R - 13);
       const [bx, by] = polar(deg, R - (major ? 25 : 20));
-      svg += '<line class="tick' + (major ? ' major' : '') + '" x1="' + ax + '" y1="' + ay +
+      out += '<line class="tick' + (major ? ' major' : '') + '" x1="' + ax + '" y1="' + ay +
              '" x2="' + bx + '" y2="' + by + '"/>';
       if (major) {
         const [lx, ly] = polar(deg, R - 38);
-        svg += '<text class="tick-label" x="' + lx + '" y="' + ly + '">' +
+        out += '<text class="tick-label" x="' + lx + '" y="' + ly + '">' +
                Math.round(i * step) + '</text>';
       }
     }
-    el.ticks.innerHTML = svg;
+    el.ticks.innerHTML = out;
   }
 
   function setNeedle(speedMs) {
-    const inUnit = speedMs * UNITS[unit].speed;
-    const frac = Math.max(0, Math.min(1, inUnit / SCALE_MAX[unit]));
+    const frac = Math.max(0, Math.min(1, (speedMs * UNITS[unit].speed) / SCALE_MAX[unit]));
     el.fill.style.strokeDashoffset = String(ARC_LEN * (1 - frac));
   }
 
-  el.track.setAttribute('d', arcPath());
+  el.trackPath.setAttribute('d', arcPath());
   el.fill.setAttribute('d', arcPath());
   el.fill.style.strokeDasharray = ARC_LEN + ' ' + ARC_LEN;
   el.fill.style.strokeDashoffset = String(ARC_LEN);
-  drawTicks();
 
-  // ---- tracking state ------------------------------------------------------
-  let watchId = null;
-  let lastFix = null;      // { lat, lon, t }
-  let currentSpeed = 0;    // m/s, smoothed
-  let maxSpeed = 0;        // m/s
-  let distance = 0;        // metres
-  let movingTime = 0;      // seconds spent above the moving threshold
-  const samples = [];      // recent { t, v } readings used for smoothing
-  const SMOOTH_MS = 2500;
-  const MOVING_MS = 0.5;   // below this we treat the user as stationary
-
+  // -------------------------------------------------------------------- maths
   function haversine(lat1, lon1, lat2, lon2) {
-    const R_EARTH = 6371008.8;
-    const toRad = Math.PI / 180;
-    const dLat = (lat2 - lat1) * toRad;
-    const dLon = (lon2 - lon1) * toRad;
+    const R_EARTH = 6371008.8, toRad = Math.PI / 180;
+    const dLat = (lat2 - lat1) * toRad, dLon = (lon2 - lon1) * toRad;
     const a = Math.pow(Math.sin(dLat / 2), 2) +
               Math.cos(lat1 * toRad) * Math.cos(lat2 * toRad) * Math.pow(Math.sin(dLon / 2), 2);
     return 2 * R_EARTH * Math.asin(Math.sqrt(a));
   }
 
-  // ---- formatting ----------------------------------------------------------
+  // --------------------------------------------------------------- formatting
   const fmtSpeed = (ms) => (ms * UNITS[unit].speed).toFixed(UNITS[unit].decimals);
 
-  function fmtDistance(metres) {
+  function fmtDistance(m) {
     if (unit === 'mph') {
-      const mi = metres / 1609.344;
-      return mi < 0.1 ? Math.round(metres * 3.28084) + ' ft' : mi.toFixed(2) + ' mi';
+      const mi = m / 1609.344;
+      return mi < 0.1 ? Math.round(m * 3.28084) + ' ft' : mi.toFixed(2) + ' mi';
     }
     if (unit === 'kn') {
-      const nmi = metres / 1852;
-      return nmi < 0.1 ? Math.round(metres) + ' m' : nmi.toFixed(2) + ' nmi';
+      const nmi = m / 1852;
+      return nmi < 0.1 ? Math.round(m) + ' m' : nmi.toFixed(2) + ' nmi';
     }
-    return metres < 1000 ? Math.round(metres) + ' m' : (metres / 1000).toFixed(2) + ' km';
+    return m < 1000 ? Math.round(m) + ' m' : (m / 1000).toFixed(2) + ' km';
   }
 
+  function fmtDuration(sec) {
+    sec = Math.max(0, Math.floor(sec));
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    const pad = (n) => String(n).padStart(2, '0');
+    return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+  }
+
+  // ------------------------------------------------------------------ banners
+  function showBanner(html, kind) {
+    el.banner.className = 'banner show ' + (kind || 'info');
+    el.banner.innerHTML = html;
+  }
+  function hideBanner() { el.banner.className = 'banner'; }
+
+  // ------------------------------------------------------------------- render
   function render() {
+    const stale = watchId !== null && lastFixAt > 0 && (Date.now() - lastFixAt) > STALE_MS;
+
     el.unitLabel.textContent = UNITS[unit].label;
     el.value.textContent = (watchId === null && !lastFix) ? '--' : fmtSpeed(currentSpeed);
+    el.value.classList.toggle('stale', stale);
+
     el.max.textContent = maxSpeed > 0 ? fmtSpeed(maxSpeed) : '--';
     el.avg.textContent = movingTime > 3 ? fmtSpeed(distance / movingTime) : '--';
     el.dist.textContent = distance > 0 ? fmtDistance(distance) : '--';
+    el.elapsed.textContent = startedAt ? fmtDuration((Date.now() - startedAt) / 1000) : '--';
+    el.accuracy.textContent = lastAccuracy === null ? '--' : '±' + Math.round(lastAccuracy) + ' m';
+    el.points.textContent = track.length ? String(track.length) : '--';
+
+    el.exportBtn.disabled = track.length < 2;
     setNeedle(currentSpeed);
   }
 
@@ -261,12 +363,33 @@
     el.status.innerHTML = '<span class="dot"></span>' + text;
   }
 
-  // ---- geolocation ---------------------------------------------------------
+  // ---------------------------------------------------------------- wake lock
+  // Without this the screen sleeps mid-ride and tracking stops dead.
+  async function acquireWakeLock() {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => { wakeLock = null; });
+    } catch (e) { /* denied or unsupported; not fatal */ }
+  }
+
+  function releaseWakeLock() {
+    if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+  }
+
+  // Re-acquire after the tab is backgrounded — the lock is dropped automatically.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && watchId !== null && !wakeLock) {
+      acquireWakeLock();
+    }
+  });
+
+  // ------------------------------------------------------------- geolocation
   function onPosition(pos) {
     const c = pos.coords;
     const t = pos.timestamp;
 
-    // Prefer the device's own speed reading; fall back to distance over time.
+    // Prefer the device's own Doppler speed; fall back to distance over time.
     let speed = (typeof c.speed === 'number' && isFinite(c.speed) && c.speed >= 0) ? c.speed : null;
     const source = speed === null ? 'derived from position' : 'GPS speed';
 
@@ -275,37 +398,65 @@
       const d = haversine(lastFix.lat, lastFix.lon, c.latitude, c.longitude);
       if (dt > 0.3) {
         if (speed === null) speed = d / dt;
-        // Only count distance once movement clears the accuracy noise floor.
+        // Only bank distance once movement clears the accuracy noise floor.
         if (d > Math.max(c.accuracy || 0, 3) * 0.5) distance += d;
         if (speed > MOVING_MS) movingTime += dt;
       }
     }
 
     lastFix = { lat: c.latitude, lon: c.longitude, t: t };
+    lastFixAt = Date.now();
+    lastAccuracy = c.accuracy;
     if (speed === null) speed = 0;
 
-    // Rolling average over the last few seconds so the number stops twitching.
     samples.push({ t: t, v: speed });
-    while (samples.length && t - samples[0].t > SMOOTH_MS) samples.shift();
-    currentSpeed = samples.reduce((s, x) => s + x.v, 0) / samples.length;
+    trimSamples(t);
+    recompute();
 
-    if (currentSpeed > maxSpeed) maxSpeed = currentSpeed;
+    if (track.length < MAX_POINTS) {
+      track.push({
+        lat: c.latitude, lon: c.longitude,
+        ele: (typeof c.altitude === 'number' && isFinite(c.altitude)) ? c.altitude : null,
+        t: t, v: speed,
+      });
+    }
 
-    const acc = c.accuracy ? '±' + Math.round(c.accuracy) + ' m' : 'unknown accuracy';
-    setStatus('Live — ' + source + ', ' + acc, 'live');
+    // Tell the truth about devices that have no real GPS.
+    if (!warnedPoorAccuracy && c.accuracy && c.accuracy > POOR_ACC_M) {
+      warnedPoorAccuracy = true;
+      showBanner(
+        '<strong>No GPS detected.</strong> This position is accurate to only ±' +
+        Math.round(c.accuracy) + ' m, which means it came from Wi-Fi or your IP address ' +
+        'rather than a satellite fix. Speed readings here will be close to meaningless. ' +
+        'Use a phone outdoors for real numbers.', 'warn');
+    }
+
+    setStatus('Live — ' + source + ', ±' + Math.round(c.accuracy || 0) + ' m', 'live');
     render();
   }
 
+  function trimSamples(now) {
+    while (samples.length && now - samples[0].t > SMOOTH_MS) samples.shift();
+  }
+
+  function recompute() {
+    currentSpeed = samples.length
+      ? samples.reduce((s, x) => s + x.v, 0) / samples.length
+      : 0;
+    if (currentSpeed > maxSpeed) maxSpeed = currentSpeed;
+  }
+
   function onError(err) {
-    stop();
     const messages = {
       1: 'Location permission denied. Enable it for this site in your browser settings.',
       2: 'Position unavailable — no GPS or network fix right now.',
       3: 'Timed out waiting for a location fix.',
     };
+    stop(false);
     setStatus(messages[err.code] || ('Location error: ' + err.message), 'error');
   }
 
+  // ------------------------------------------------------------- start / stop
   function start() {
     if (!('geolocation' in navigator)) {
       setStatus('This browser has no Geolocation API.', 'error');
@@ -315,49 +466,177 @@
       setStatus('Blocked: geolocation needs https:// or localhost.', 'error');
       return;
     }
+
+    hideBanner();
+    warnedPoorAccuracy = false;
+    if (!startedAt) startedAt = Date.now();
+
     setStatus('Acquiring GPS fix…');
     watchId = navigator.geolocation.watchPosition(onPosition, onError, {
-      enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: 20000,
+      enableHighAccuracy: true, maximumAge: 0, timeout: 20000,
     });
+    acquireWakeLock();
+
     el.toggle.textContent = 'Stop';
     el.toggle.classList.remove('primary');
     el.toggle.classList.add('stop');
   }
 
-  function stop() {
+  function stop(saveTrip) {
     if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     watchId = null;
+    releaseWakeLock();
     lastFix = null;
     samples.length = 0;
     currentSpeed = 0;
+
     el.toggle.textContent = 'Start tracking';
     el.toggle.classList.add('primary');
     el.toggle.classList.remove('stop');
+
+    if (saveTrip !== false && distance > 20) saveTrip_();
     setStatus('Stopped.');
     render();
   }
 
-  // ---- wiring --------------------------------------------------------------
-  el.toggle.addEventListener('click', () => (watchId === null ? start() : stop()));
+  // ------------------------------------------------------------ trip history
+  function saveTrip_() {
+    const trips = store.get(LS_TRIPS, []);
+    trips.unshift({
+      at: Date.now(),
+      dur: startedAt ? (Date.now() - startedAt) / 1000 : 0,
+      dist: distance,
+      max: maxSpeed,
+      avg: movingTime > 3 ? distance / movingTime : 0,
+    });
+    store.set(LS_TRIPS, trips.slice(0, 20));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const trips = store.get(LS_TRIPS, []);
+    if (!trips.length) { el.history.classList.remove('show'); return; }
+
+    el.history.classList.add('show');
+    el.tripList.innerHTML = trips.map((t) => {
+      const when = new Date(t.at).toLocaleString(undefined,
+        { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return '<div class="trip">' +
+               '<div><div>' + fmtDistance(t.dist) + '</div>' +
+               '<div class="when">' + when + '</div></div>' +
+               '<div class="nums"><div>max ' + fmtSpeed(t.max) + ' ' + UNITS[unit].label + '</div>' +
+               '<div class="when">' + fmtDuration(t.dur) + '</div></div>' +
+             '</div>';
+    }).join('');
+  }
+
+  el.clearHistory.addEventListener('click', () => {
+    store.set(LS_TRIPS, []);
+    renderHistory();
+  });
+
+  // -------------------------------------------------------------- GPX export
+  function buildGpx() {
+    const esc = (s) => String(s).replace(/[<>&'"]/g,
+      (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[ch]));
+    const name = 'Self Speed ' + new Date(track[0].t).toISOString();
+
+    const pts = track.map((p) => {
+      let s = '   <trkpt lat="' + p.lat.toFixed(7) + '" lon="' + p.lon.toFixed(7) + '">\n';
+      if (p.ele !== null) s += '    <ele>' + p.ele.toFixed(1) + '</ele>\n';
+      s += '    <time>' + new Date(p.t).toISOString() + '</time>\n';
+      s += '   </trkpt>\n';
+      return s;
+    }).join('');
+
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<gpx version="1.1" creator="Self Speed" xmlns="http://www.topografix.com/GPX/1/1">\n' +
+      ' <metadata><name>' + esc(name) + '</name>' +
+      '<time>' + new Date(track[0].t).toISOString() + '</time></metadata>\n' +
+      ' <trk>\n  <name>' + esc(name) + '</name>\n  <trkseg>\n' + pts +
+      '  </trkseg>\n </trk>\n</gpx>\n';
+  }
+
+  el.exportBtn.addEventListener('click', () => {
+    if (track.length < 2) return;
+    const blob = new Blob([buildGpx()], { type: 'application/gpx+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'self-speed-' + new Date(track[0].t).toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.gpx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  });
+
+  // ------------------------------------------------------------------ wiring
+  el.toggle.addEventListener('click', () => (watchId === null ? start() : stop(true)));
 
   el.reset.addEventListener('click', () => {
     maxSpeed = 0; distance = 0; movingTime = 0; currentSpeed = 0;
-    samples.length = 0; lastFix = null;
+    samples.length = 0; track.length = 0; lastFix = null; lastFixAt = 0;
+    startedAt = watchId !== null ? Date.now() : 0;
+    lastAccuracy = null;
     render();
   });
 
   document.querySelectorAll('.units button').forEach((btn) => {
     btn.addEventListener('click', () => {
       unit = btn.dataset.unit;
+      store.set(LS_UNIT, unit);
       document.querySelectorAll('.units button').forEach((b) =>
         b.setAttribute('aria-pressed', String(b === btn)));
       drawTicks();
       render();
+      renderHistory();
     });
   });
 
+  // Ticks every 500ms so elapsed time advances and the speed decays to zero
+  // when fixes stop arriving, instead of freezing on the last reading.
+  setInterval(() => {
+    if (watchId === null && !startedAt) return;
+    if (watchId !== null) { trimSamples(Date.now()); recompute(); }
+    render();
+  }, 500);
+
+  // --------------------------------------------------------- PWA install flow
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstall = e;
+    el.install.style.display = 'block';
+  });
+
+  el.install.addEventListener('click', async () => {
+    if (!deferredInstall) return;
+    deferredInstall.prompt();
+    await deferredInstall.userChoice;
+    deferredInstall = null;
+    el.install.style.display = 'none';
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+
+  // ------------------------------------------------------------------- init
+  const savedUnit = store.get(LS_UNIT, 'kmh');
+  if (UNITS[savedUnit]) {
+    unit = savedUnit;
+    document.querySelectorAll('.units button').forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.unit === unit)));
+  }
+
+  if (!('wakeLock' in navigator)) {
+    showBanner('Your browser can\'t keep the screen awake, so tracking will stop ' +
+               'when the display sleeps. Set your screen timeout higher before a long trip.', 'info');
+  }
+
+  drawTicks();
+  renderHistory();
   render();
 })();
 </script>
