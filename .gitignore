@@ -1,4 +1,7 @@
 _test*.html
 _probe.html
+body.html
+real.html
+progress.log
 ud/
 .DS_Store
