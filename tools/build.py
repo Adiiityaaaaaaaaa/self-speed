@@ -18,8 +18,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 TEMPLATE = ROOT / "tools" / "template.html"
 
-# Canonical origin. PREFIX is the path the site is served from: "/" on a
-# custom domain, "/<repo>/" if ever served from a GitHub Pages subpath again.
+# Canonical origin. PREFIX is the path the site is served from — "/" on the
+# custom domain. Change both together if the site ever moves to a subpath.
 BASE = "https://selfspeed.app"
 PREFIX = "/"
 
