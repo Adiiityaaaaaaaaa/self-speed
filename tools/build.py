@@ -34,16 +34,29 @@ NAV = [
     ("train-speedometer", "Transit"),
 ]
 
-FOOTER = [
-    ("how-gps-speedometers-work", "How it works"),
-    ("is-gps-speed-accurate", "Accuracy"),
-    ("kmh-to-mph", "km/h → mph"),
-    ("mph-to-kmh", "mph → km/h"),
-    ("knots-to-kmh", "knots → km/h"),
-    ("about", "About"),
-    ("contact", "Contact"),
-    ("privacy", "Privacy"),
-    ("terms", "Terms"),
+# Footer is grouped; each group renders as a labelled row.
+FOOTER_GROUPS = [
+    ("Guides", [
+        ("how-gps-speedometers-work", "How GPS speedometers work"),
+        ("is-gps-speed-accurate", "Is GPS speed accurate?"),
+        ("average-walking-speed", "Average walking speed"),
+        ("average-cycling-speed", "Average cycling speed"),
+        ("average-running-speed", "Average running speed"),
+    ]),
+    ("Convert", [
+        ("kmh-to-mph", "km/h → mph"),
+        ("mph-to-kmh", "mph → km/h"),
+        ("knots-to-kmh", "knots → km/h"),
+        ("ms-to-kmh", "m/s → km/h"),
+        ("mph-to-knots", "mph → knots"),
+        ("running-pace-calculator", "Running pace calculator"),
+    ]),
+    ("Site", [
+        ("about", "About"),
+        ("contact", "Contact"),
+        ("privacy", "Privacy"),
+        ("terms", "Terms"),
+    ]),
 ]
 
 
@@ -161,9 +174,11 @@ def nav_html(current):
 
 
 def footer_html():
-    return "".join(
-        f'<a href="{PREFIX}{slug}/">{label}</a>' for slug, label in FOOTER
-    )
+    out = []
+    for heading, items in FOOTER_GROUPS:
+        links = "".join(f'<a href="{PREFIX}{slug}/">{label}</a>' for slug, label in items)
+        out.append(f'<div class="fgroup"><h2>{heading}</h2><div class="links">{links}</div></div>')
+    return "".join(out)
 
 
 # --------------------------------------------------------------------- build

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Average Cycling Speed — How Fast Do Cyclists Ride?</title>
+<meta name="description" content="Average cycling speed by rider type, from a casual 15 km/h to a racing 45 km/h. What actually determines your speed, why wind matters more than fitness, and how to compare honestly.">
+<link rel="canonical" href="https://selfspeed.app/average-cycling-speed/">
+<meta property="og:title" content="Average Cycling Speed — How Fast Do Cyclists Ride?">
+<meta property="og:description" content="Average cycling speed by rider type, from a casual 15 km/h to a racing 45 km/h. What actually determines your speed, why wind matters more than fitness, and how to compare honestly.">
+<meta property="og:type" content="article">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2162757811453914"
+     crossorigin="anonymous"></script>
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .fgroup{margin-bottom:18px}
+  .fgroup h2{font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+             color:#5d6880;margin:0 0 7px;font-weight:600}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/">
+      <img src="/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/">Speedometer</a><a href="/cycling-speedometer/">Cycling</a><a href="/running-speed-tracker/">Running</a><a href="/car-speedometer/">Driving</a><a href="/boat-speedometer-knots/">Boating</a><a href="/ski-speed-tracker/">Skiing</a><a href="/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Average cycling speed</h1>
+<p><strong>A casual rider averages 15–20 km/h. A fit club cyclist averages 25–30 km/h.</strong> Beyond that, the number says more about conditions than about the rider.</p>
+<p>Cycling speed is far more variable than running or walking, because a bicycle is efficient enough that external forces — wind, gradient, surface, other riders — dominate over the engine.</p>
+<h2 id="by-rider-type">By rider type</h2>
+<div class="table-wrap"><table><thead><tr><th>Rider</th><th>km/h</th><th>mph</th><th>Context</th></tr></thead><tbody><tr><td>Leisure, flat bar, upright</td><td>12 – 16</td><td>7 – 10</td><td>Towpaths, parks, no hurry</td></tr><tr><td>Commuter, urban</td><td>15 – 20</td><td>9 – 12</td><td>Traffic lights dominate the average</td></tr><tr><td>Regular recreational</td><td>20 – 25</td><td>12 – 16</td><td>Weekend rides, some fitness</td></tr><tr><td>Fit club cyclist</td><td>25 – 30</td><td>16 – 19</td><td>Road bike, trains regularly</td></tr><tr><td>Strong amateur racer</td><td>30 – 35</td><td>19 – 22</td><td>Racing licence, structured training</td></tr><tr><td>Professional, flat stage</td><td>40 – 45</td><td>25 – 28</td><td>In a peloton, sheltered</td></tr><tr><td>Professional, time trial</td><td>45 – 55</td><td>28 – 34</td><td>Alone, aero position</td></tr></tbody></table></div>
+<p>The gap between the last two rows is the whole point of a peloton: sitting in a group can cut your effort by 30–40% at the same speed.</p>
+<h2 id="why-wind-beats-fitness">Why wind beats fitness</h2>
+<p>Above roughly 25 km/h, <strong>air resistance accounts for around 80–90% of the power you produce.</strong> Drag rises with the square of your speed through the air, so every extra km/h costs disproportionately more.</p>
+<p>The practical consequence is that a headwind wrecks your average far more than a tailwind rescues it. An out-and-back ride into a 20 km/h wind is always slower overall than the same ride in still air, because you spend far longer fighting it than you do being pushed.</p>
+<p>This also explains why position matters more than equipment. Moving from upright to the drops can be worth several km/h for free — a bigger gain than most people buy with expensive wheels.</p>
+<h2 id="what-else-changes-your-speed">What else changes your speed</h2>
+<p><strong>Gradient.</strong> Brutal, and asymmetric. A 5% climb might halve your speed; the descent gives back less than it took, because you eventually brake. Hilly routes always average slower than flat ones for the same effort.</p>
+<p><strong>Tyre pressure and width.</strong> Under-inflation is a common and invisible tax. Modern wisdom has shifted toward wider tyres at lower pressures, which are usually faster on real road surfaces, not just more comfortable.</p>
+<p><strong>Stops.</strong> Urban commuting averages are dominated by traffic lights. This is why Self Speed reports a <em>moving</em> average that excludes time below 0.5 m/s — it tells you how you rode, rather than how the city's junctions are timed. See <a href="/cycling-speedometer/">cycling speedometer</a>.</p>
+<p><strong>Weight.</strong> Matters on climbs, barely matters on the flat. A few kilos costs almost nothing at constant speed on level ground.</p>
+<h2 id="comparing-averages-honestly">Comparing averages honestly</h2>
+<p>Cyclists compare average speeds constantly, and the comparison is usually meaningless without context. Before reading anything into a number, ask:</p>
+<ul><li><strong>Flat or hilly?</strong> 200 m of climbing per 10 km changes everything.</li><li><strong>Alone or in a group?</strong> Drafting is worth 3–5 km/h at no extra effort.</li><li><strong>Moving average or total?</strong> Including café stops can knock several km/h off.</li><li><strong>How far?</strong> Holding 30 km/h for 20 km is ordinary. Holding it for 150 km is</li></ul>
+<p>a different sport.</p>
+<ul><li><strong>What wind?</strong> A 25 km/h average into a headwind can be a harder ride than 32</li></ul>
+<p>km/h with one behind.</p>
+<p>A 28 km/h solo average on a rolling route into wind is a considerably better ride than a 33 km/h group average on a flat day. The numbers alone say the opposite.</p>
+<h2 id="distance-and-time">Distance and time</h2>
+<p>Useful planning figures at a steady recreational pace:</p>
+<div class="table-wrap"><table><thead><tr><th>Distance</th><th>At 18 km/h</th><th>At 25 km/h</th><th>At 30 km/h</th></tr></thead><tbody><tr><td>10 km</td><td>33 min</td><td>24 min</td><td>20 min</td></tr><tr><td>20 km</td><td>1h 07</td><td>48 min</td><td>40 min</td></tr><tr><td>50 km</td><td>2h 47</td><td>2h 00</td><td>1h 40</td></tr><tr><td>100 km</td><td>5h 33</td><td>4h 00</td><td>3h 20</td></tr><tr><td>160 km (century)</td><td>8h 53</td><td>6h 24</td><td>5h 20</td></tr></tbody></table></div>
+<p>Add time for stops, and add more than you expect for climbing.</p>
+<h2 id="measuring-it-properly">Measuring it properly</h2>
+<p>GPS is well suited to cycling — you are usually outdoors with a clear view of the sky, and moving fast enough that the signal sits comfortably above the noise.</p>
+<p>Self Speed reports live speed, moving average, distance and maximum, and exports your track as GPX for Strava or Garmin. Mount the phone where it can see the sky; a jersey pocket works but degrades accuracy.</p>
+
+    <a class="cta" href="/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><div class="fgroup"><h2>Guides</h2><div class="links"><a href="/how-gps-speedometers-work/">How GPS speedometers work</a><a href="/is-gps-speed-accurate/">Is GPS speed accurate?</a><a href="/average-walking-speed/">Average walking speed</a><a href="/average-cycling-speed/">Average cycling speed</a><a href="/average-running-speed/">Average running speed</a></div></div><div class="fgroup"><h2>Convert</h2><div class="links"><a href="/kmh-to-mph/">km/h → mph</a><a href="/mph-to-kmh/">mph → km/h</a><a href="/knots-to-kmh/">knots → km/h</a><a href="/ms-to-kmh/">m/s → km/h</a><a href="/mph-to-knots/">mph → knots</a><a href="/running-pace-calculator/">Running pace calculator</a></div></div><div class="fgroup"><h2>Site</h2><div class="links"><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>
