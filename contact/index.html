@@ -75,6 +75,17 @@
   th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
   td{font-variant-numeric:tabular-nums}
 
+  /* ---- related pages ---- */
+  .related{margin:44px 0 0;padding-top:26px;border-top:1px solid var(--line)}
+  .related h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+              color:var(--muted);margin:0 0 14px;font-weight:600}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .rgrid a{display:block;background:var(--panel);border:1px solid var(--line);
+           border-radius:13px;padding:14px 15px;text-decoration:none;color:var(--text)}
+  .rgrid a:hover{border-color:#35425e;background:#182033}
+  .rgrid strong{display:block;font-size:15px;line-height:1.3;margin-bottom:4px;color:#fff}
+  .rgrid span{font-size:12.5px;line-height:1.45;color:var(--muted)}
+
   /* ---- call to action ---- */
   .cta{
     display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
@@ -143,6 +154,8 @@
 <p>Yes, once you have loaded it once. The page caches itself in your browser, and your GPS receiver does not need a data connection to get a fix — only to download the page in the first place. Load it before you go up a mountain or out to sea.</p>
 <h3>Is my location being uploaded?</h3>
 <p>No. There is no server. Everything is computed in your browser and nothing is transmitted. See the <a href="/privacy/">privacy policy</a>.</p>
+
+    
 
     <a class="cta" href="/">
       <strong>Open the speedometer →</strong>

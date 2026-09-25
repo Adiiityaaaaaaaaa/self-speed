@@ -75,6 +75,17 @@
   th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
   td{font-variant-numeric:tabular-nums}
 
+  /* ---- related pages ---- */
+  .related{margin:44px 0 0;padding-top:26px;border-top:1px solid var(--line)}
+  .related h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+              color:var(--muted);margin:0 0 14px;font-weight:600}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .rgrid a{display:block;background:var(--panel);border:1px solid var(--line);
+           border-radius:13px;padding:14px 15px;text-decoration:none;color:var(--text)}
+  .rgrid a:hover{border-color:#35425e;background:#182033}
+  .rgrid strong{display:block;font-size:15px;line-height:1.3;margin-bottom:4px;color:#fff}
+  .rgrid span{font-size:12.5px;line-height:1.45;color:var(--muted)}
+
   /* ---- call to action ---- */
   .cta{
     display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
@@ -295,6 +306,8 @@
 <h2 id="measuring-the-inputs">Measuring the inputs</h2>
 <p>The calculator is only as good as the distance and time you feed it. Self Speed records both automatically, along with your average speed — see <a href="/average-walking-speed/">average walking speed</a> and <a href="/average-cycling-speed/">average cycling speed</a> for what to expect.</p>
 <p>Incline is the one figure GPS handles poorly. Vertical accuracy is typically two to three times worse than horizontal, so for a route with meaningful climbing, take the gradient from a mapping tool rather than from your phone.</p>
+
+    <section class="related"><h2>Related</h2><div class="rgrid"><a href="/average-walking-speed/"><strong>Average Walking Speed</strong><span>About 5 km/h, and what changes it</span></a><a href="/average-cycling-speed/"><strong>Average Cycling Speed</strong><span>15 km/h casual to 45 km/h racing</span></a><a href="/running-pace-calculator/"><strong>Running Pace Calculator</strong><span>Speed to pace to finishing time</span></a></div></section>
 
     <a class="cta" href="/">
       <strong>Open the speedometer →</strong>

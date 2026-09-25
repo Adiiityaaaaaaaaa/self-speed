@@ -75,6 +75,17 @@
   th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
   td{font-variant-numeric:tabular-nums}
 
+  /* ---- related pages ---- */
+  .related{margin:44px 0 0;padding-top:26px;border-top:1px solid var(--line)}
+  .related h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+              color:var(--muted);margin:0 0 14px;font-weight:600}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .rgrid a{display:block;background:var(--panel);border:1px solid var(--line);
+           border-radius:13px;padding:14px 15px;text-decoration:none;color:var(--text)}
+  .rgrid a:hover{border-color:#35425e;background:#182033}
+  .rgrid strong{display:block;font-size:15px;line-height:1.3;margin-bottom:4px;color:#fff}
+  .rgrid span{font-size:12.5px;line-height:1.45;color:var(--muted)}
+
   /* ---- call to action ---- */
   .cta{
     display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
@@ -143,6 +154,8 @@
 <p>A service advertised as "200 km/h" spends most of its journey well below that. Line speed applies only to the sections engineered for it, and acceleration up to it takes several minutes.</p>
 <h2 id="why-the-reading-lags-a-real-change">Why the reading lags a real change</h2>
 <p>A GPS receiver applies its own filtering before reporting a velocity, and Self Speed averages over a further 2.5 seconds. The combined effect is that a sharp change — a train braking hard into a station — appears on screen a couple of seconds after you feel it. That delay is the price of a stable number, and it is a deliberate trade.</p>
+
+    <section class="related"><h2>Related</h2><div class="rgrid"><a href="/is-gps-speed-accurate/"><strong>Is GPS Speed Accurate? What Affects It and When to Trust It</strong><span>When to trust the number, and when not to</span></a><a href="/kmh-to-mph/"><strong>km/h to mph Converter</strong><span>Multiply by 0.621371</span></a><a href="/how-gps-speedometers-work/"><strong>How GPS Speedometers Work</strong><span>Doppler shift, and why it beats the obvious method</span></a></div></section>
 
     <a class="cta" href="/">
       <strong>Open the speedometer →</strong>

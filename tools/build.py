@@ -268,6 +268,85 @@ def jsonld_for(slug, title, description, md):
     return "\n".join(
         f'<script type="application/ld+json">{blk}</script>' for blk in blocks)
 
+# Short hooks for the related-page cards. Meta descriptions are too long to sit
+# on a card, so each page gets a one-liner.
+TAGLINE = {
+    "": "Live GPS speed in your browser",
+    "cycling-speedometer": "Turn your phone into a bike computer",
+    "running-speed-tracker": "Pace and distance without a watch",
+    "car-speedometer": "Why your dashboard reads high",
+    "boat-speedometer-knots": "Speed over ground, in knots",
+    "ski-speed-tracker": "How fast you really ski",
+    "train-speedometer": "How fast is this train going?",
+    "how-gps-speedometers-work": "Doppler shift, and why it beats the obvious method",
+    "is-gps-speed-accurate": "When to trust the number, and when not to",
+    "average-walking-speed": "About 5 km/h, and what changes it",
+    "average-cycling-speed": "15 km/h casual to 45 km/h racing",
+    "average-running-speed": "By ability and by distance",
+    "calorie-calculator": "Calories burned, with incline accounted for",
+    "running-pace-calculator": "Speed to pace to finishing time",
+    "kmh-to-mph": "Multiply by 0.621371",
+    "mph-to-kmh": "Multiply by 1.609344",
+    "knots-to-kmh": "Multiply by 1.852",
+    "ms-to-kmh": "Multiply by 3.6",
+    "mph-to-knots": "Divide by 1.150779",
+    "about": "What this is and what it refuses to do",
+    "contact": "Report a bug, or ask about privacy",
+    "privacy": "Your location never leaves your device",
+    "terms": "What not to rely on this for",
+}
+
+# Curated: three per page, chosen for what a reader of that page would want next.
+RELATED = {
+    "cycling-speedometer": ["average-cycling-speed", "calorie-calculator", "is-gps-speed-accurate"],
+    "running-speed-tracker": ["average-running-speed", "running-pace-calculator", "calorie-calculator"],
+    "car-speedometer": ["is-gps-speed-accurate", "how-gps-speedometers-work", "kmh-to-mph"],
+    "boat-speedometer-knots": ["knots-to-kmh", "mph-to-knots", "is-gps-speed-accurate"],
+    "ski-speed-tracker": ["is-gps-speed-accurate", "calorie-calculator", "how-gps-speedometers-work"],
+    "train-speedometer": ["is-gps-speed-accurate", "kmh-to-mph", "how-gps-speedometers-work"],
+
+    "how-gps-speedometers-work": ["is-gps-speed-accurate", "car-speedometer", "ms-to-kmh", "train-speedometer"],
+    "is-gps-speed-accurate": ["how-gps-speedometers-work", "car-speedometer", "cycling-speedometer", "ski-speed-tracker"],
+
+    "average-walking-speed": ["calorie-calculator", "average-running-speed", "running-pace-calculator"],
+    "average-cycling-speed": ["cycling-speedometer", "calorie-calculator", "average-running-speed", "ski-speed-tracker"],
+    "average-running-speed": ["running-pace-calculator", "running-speed-tracker", "calorie-calculator"],
+
+    "calorie-calculator": ["average-walking-speed", "average-cycling-speed", "running-pace-calculator"],
+    "running-pace-calculator": ["average-running-speed", "running-speed-tracker", "calorie-calculator"],
+
+    "kmh-to-mph": ["mph-to-kmh", "ms-to-kmh", "car-speedometer", "train-speedometer"],
+    "mph-to-kmh": ["kmh-to-mph", "knots-to-kmh", "car-speedometer"],
+    "knots-to-kmh": ["mph-to-knots", "boat-speedometer-knots", "ms-to-kmh"],
+    "ms-to-kmh": ["kmh-to-mph", "how-gps-speedometers-work", "average-walking-speed"],
+    "mph-to-knots": ["knots-to-kmh", "boat-speedometer-knots", "kmh-to-mph"],
+}
+
+
+def title_for(slug):
+    """Short display title for a card, taken from the content front matter."""
+    p = CONTENT / f"{slug}.md"
+    if not p.exists():
+        return slug
+    meta, _ = parse(p)
+    t = meta.get("title", slug)
+    for sep in (" — ", ": ", " - "):
+        if sep in t:
+            return t.split(sep)[0]
+    return t
+
+
+def related_html(slug):
+    picks = RELATED.get(slug)
+    if not picks:
+        return ""
+    cards = "".join(
+        f'<a href="{PREFIX}{r}/"><strong>{html.escape(title_for(r))}</strong>'
+        f'<span>{html.escape(TAGLINE.get(r, ""))}</span></a>'
+        for r in picks)
+    return f'<section class="related"><h2>Related</h2><div class="rgrid">{cards}</div></section>'
+
+
 # --------------------------------------------------------------------- build
 def main():
     template = TEMPLATE.read_text(encoding="utf-8")
@@ -284,6 +363,7 @@ def main():
                 .replace("{{footer}}", footer_html())
                 .replace("{{jsonld}}", jsonld_for(slug, meta.get("title", slug),
                                                   meta.get("description", ""), body))
+                .replace("{{related}}", related_html(slug))
                 .replace("{{content}}", render(body)))
 
         out_dir = ROOT / slug

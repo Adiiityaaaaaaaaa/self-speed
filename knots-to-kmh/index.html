@@ -76,6 +76,17 @@
   th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
   td{font-variant-numeric:tabular-nums}
 
+  /* ---- related pages ---- */
+  .related{margin:44px 0 0;padding-top:26px;border-top:1px solid var(--line)}
+  .related h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+              color:var(--muted);margin:0 0 14px;font-weight:600}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .rgrid a{display:block;background:var(--panel);border:1px solid var(--line);
+           border-radius:13px;padding:14px 15px;text-decoration:none;color:var(--text)}
+  .rgrid a:hover{border-color:#35425e;background:#182033}
+  .rgrid strong{display:block;font-size:15px;line-height:1.3;margin-bottom:4px;color:#fff}
+  .rgrid span{font-size:12.5px;line-height:1.45;color:var(--muted)}
+
   /* ---- call to action ---- */
   .cta{
     display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
@@ -143,6 +154,8 @@
 <p>Because a nautical mile is one minute of latitude, so distance can be measured straight off a chart's latitude scale with dividers, with no conversion and no risk of arithmetic error. That property has kept the unit alive through two centuries of metrication.</p>
 <h3>What speed does a sailing yacht make?</h3>
 <p>A typical 10-metre cruising yacht sails at 5 to 7 knots, which is 9 to 13 km/h — slower than a competent cyclist. Hull speed, the practical limit for a displacement hull, scales with the square root of waterline length, so longer boats are faster almost by definition.</p>
+
+    <section class="related"><h2>Related</h2><div class="rgrid"><a href="/mph-to-knots/"><strong>mph to Knots Converter</strong><span>Divide by 1.150779</span></a><a href="/boat-speedometer-knots/"><strong>Boat Speedometer in Knots</strong><span>Speed over ground, in knots</span></a><a href="/ms-to-kmh/"><strong>m/s to km/h Converter</strong><span>Multiply by 3.6</span></a></div></section>
 
     <a class="cta" href="/">
       <strong>Open the speedometer →</strong>
