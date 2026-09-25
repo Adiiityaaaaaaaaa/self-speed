@@ -144,27 +144,55 @@ redirect that discarded the challenge path. Fixed, but not the root cause.
 
 Putting Cloudflare in front made the whole question moot.
 
-## Phase 4 — Compliance (half a day, non-negotiable)
+## Phase 4 — Compliance (done)
 
-- [ ] **Privacy policy explicitly covering geolocation.** Even though location
-      never leaves the device, say so. Also cover AdSense cookies.
-- [ ] **A Google-certified CMP.** Mandatory for EEA/UK traffic. Google's own
-      Privacy & Consent Management is free. Serving ads to EU users without one
-      violates policy.
-- [ ] India DPDP Act compliance if going `.in`.
+- [x] **Privacy policy covering geolocation and advertising.** States that
+      location is computed in-browser and never transmitted or used for ad
+      targeting, and documents AdSense cookies, what we receive (aggregate
+      counts only), consent, and four opt-out routes.
+- [x] **Google-certified CMP.** Google's own CMP, configured with the
+      **3-choice** message (Consent / Do not consent / Manage options) rather
+      than the 2-choice variant. Under GDPR refusing must be as easy as
+      accepting; the 2-choice design hides refusal behind "Manage options" and
+      regulators have ruled that non-compliant — CNIL fined Google over exactly
+      that pattern in 2021. The 3-choice version also keeps the privacy policy's
+      "you can refuse" promise literally true.
+- [x] Contact address `hello@selfspeed.app` via Cloudflare Email Routing,
+      forwarding to Gmail, catch-all dropped.
 
-## Phase 5 — AdSense (week 4, then wait 1–4 weeks)
+Note: Cloudflare's **Email Address Obfuscation** had to be turned off. It
+rewrote the address into a JS-decoded link rendering as `[email protected]`,
+which an AdSense reviewer (or any non-JS crawler) cannot read. Good anti-spam,
+but it hid the one thing the review needed to see.
 
-Apply only once Phases 2–4 are live.
+## Phase 5 — AdSense (submitted, awaiting review)
 
-- [ ] **Auto Ads with the anchor unit** — this is what makes long sessions pay.
-      The sticky bar stays visible for the whole ~7-minute session.
-- [ ] **Nothing over the gauge.** People read this while driving. Keep the
-      instrument clean; ads go above and below.
-- [ ] **Do not auto-refresh ads.** Common AdSense ban reason. Auto Ads anchor is
-      the compliant way to monetise long sessions.
+Submitted 26 September 2026. Publisher ID `ca-pub-2162757811453914`.
 
-Expect rejection the first time. Add content and reapply.
+- [x] Account upgraded from AdSense-for-YouTube to full AdSense. The YouTube
+      variant cannot monetise websites — it has no Sites or Ads section.
+- [x] Verification tag deployed to all 16 pages via `index.html` and
+      `tools/template.html`
+- [x] Service worker cache bumped so returning visitors are not served a cached
+      page missing the tag
+- [x] Site ownership verified, review requested, consent message published
+- [ ] **Awaiting decision — 1 to 4 weeks**
+
+### When approved
+
+- [ ] **Auto Ads with the anchor unit.** The sticky bar is what makes long
+      sessions pay; a 7-minute session on one page otherwise yields a single
+      impression.
+- [ ] **Nothing over the gauge.** People read this while driving. Ads go above
+      and below the instrument, never across it.
+- [ ] **Do not auto-refresh ads.** Common ban reason.
+
+### If rejected
+
+First-attempt rejection is common and usually reads "low value content". The
+site has ~10,300 words across 15 pages, which is a defensible position, but it
+is also new with no traffic history and that counts against it. The fix is more
+content and more time, then reapply. It is not a verdict on the site.
 
 ## Phase 6 — SEO (months 2–12)
 
