@@ -7,9 +7,11 @@ priority: 0.4
 
 # Contact
 
-> **Site owner: replace this block with a working email address before
-> publishing.** A reachable contact method is required by Google AdSense and is
-> expected by most readers. This page will not pass review as it stands.
+The best way to reach us is by email:
+
+**hello@selfspeed.app**
+
+We read everything, though we can't always reply individually.
 
 ## Reporting a bug
 
