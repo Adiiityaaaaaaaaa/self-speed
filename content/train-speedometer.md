@@ -1,5 +1,5 @@
 ---
-title: Train and Transit Speedometer — How Fast Is This Train Going?
+title: Train Speedometer — How Fast Is This Train Going?
 description: Find out how fast your train, bus, metro or plane is actually moving, using GPS in your browser. Free, no install, works from a window seat.
 slug: train-speedometer
 priority: 0.8

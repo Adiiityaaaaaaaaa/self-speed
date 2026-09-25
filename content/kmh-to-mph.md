@@ -1,5 +1,5 @@
 ---
-title: km/h to mph Converter — Kilometres per Hour to Miles per Hour
+title: km/h to mph Converter — Table and Formula
 description: Convert km/h to mph instantly, with a full conversion table, the exact formula, and a mental-arithmetic trick that gets you within 2 percent.
 slug: kmh-to-mph
 priority: 0.7

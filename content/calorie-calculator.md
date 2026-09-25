@@ -1,6 +1,6 @@
 ---
-title: Calorie Calculator for Walking, Running and Cycling — With Incline
-description: Work out calories burned walking, running or cycling from your distance, time and incline. Uses ACSM metabolic equations and a physics power model, not a flat MET guess.
+title: Calorie Calculator: Walking, Running, Cycling
+description: Calories burned walking, running or cycling, from your distance, time and incline. Uses ACSM equations and a physics power model, not a MET guess.
 slug: calorie-calculator
 priority: 0.9
 ---

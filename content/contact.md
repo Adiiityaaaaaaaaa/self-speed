@@ -1,6 +1,6 @@
 ---
 title: Contact — Self Speed
-description: How to get in touch about Self Speed, report a bug, or ask about the privacy policy.
+description: How to get in touch about Self Speed, report a GPS bug usefully, or ask about the privacy policy. Answers to the most common questions first.
 slug: contact
 priority: 0.4
 ---

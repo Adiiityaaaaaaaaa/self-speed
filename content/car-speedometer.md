@@ -1,5 +1,5 @@
 ---
-title: Car Speedometer App — Check Your Real GPS Speed in the Browser
+title: Car Speedometer — Check Your Real GPS Speed
 description: A free GPS speedometer for your car. See your true ground speed, compare it against your dashboard, and find out why the two never quite agree.
 slug: car-speedometer
 priority: 0.9

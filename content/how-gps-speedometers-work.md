@@ -1,5 +1,5 @@
 ---
-title: How GPS Speedometers Work — Doppler Shift vs Position Differencing
+title: How GPS Speedometers Work — Doppler vs Position
 description: How a GPS speedometer actually measures speed, why Doppler shift beats dividing distance by time, and what your phone is really doing when it reports a speed.
 slug: how-gps-speedometers-work
 priority: 0.8

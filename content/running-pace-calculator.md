@@ -1,5 +1,5 @@
 ---
-title: Running Pace Calculator — Convert Speed to Pace and Race Times
+title: Running Pace Calculator — Speed, Pace, Race Times
 description: Convert running speed to pace in min/km and min/mile, with finishing times for 5K, 10K, half marathon and marathon at every pace.
 slug: running-pace-calculator
 priority: 0.7

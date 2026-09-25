@@ -1,6 +1,6 @@
 ---
 title: Average Cycling Speed — How Fast Do Cyclists Ride?
-description: Average cycling speed by rider type, from a casual 15 km/h to a racing 45 km/h. What actually determines your speed, why wind matters more than fitness, and how to compare honestly.
+description: Average cycling speed by rider type, from a casual 15 km/h to a racing 45 km/h. What really sets your pace, and how to compare averages honestly.
 slug: average-cycling-speed
 priority: 0.8
 ---

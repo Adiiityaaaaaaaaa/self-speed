@@ -1,5 +1,5 @@
 ---
-title: Cycling Speedometer — Track Bike Speed with GPS, No Computer Needed
+title: Cycling Speedometer — Track Bike Speed with GPS
 description: Turn your phone into a cycling speedometer. Live speed, average, distance and max, plus GPX export to Strava or Garmin. Free, works offline, no app install.
 slug: cycling-speedometer
 priority: 0.9

@@ -1,6 +1,6 @@
 ---
 title: Average Running Speed — How Fast Do Runners Run?
-description: Average running speed by ability and distance, with pace conversions. Why your 5K pace is not your marathon pace, and what an ordinary runner can realistically expect.
+description: Average running speed by ability and distance, with pace conversions. Why your 5K pace is not your marathon pace, and what to realistically expect.
 slug: average-running-speed
 priority: 0.8
 ---

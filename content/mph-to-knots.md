@@ -1,5 +1,5 @@
 ---
-title: mph to Knots Converter — Miles per Hour to Nautical Miles per Hour
+title: mph to Knots Converter — Full Conversion Table
 description: Convert mph to knots and km/h. Divide by 1.151. Full table, why the nautical mile exists, and when each unit is actually used.
 slug: mph-to-knots
 priority: 0.7

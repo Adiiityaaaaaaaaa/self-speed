@@ -1,6 +1,6 @@
 ---
 title: Privacy Policy — Self Speed
-description: How Self Speed handles your location data and what advertising cookies are set. Your location never leaves your device; advertising is provided by Google AdSense.
+description: How Self Speed handles your location: it never leaves your device. What advertising cookies are set, how to refuse them, and how to opt out.
 slug: privacy
 priority: 0.4
 ---

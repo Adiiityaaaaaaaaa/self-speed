@@ -1,5 +1,5 @@
 ---
-title: m/s to km/h Converter — Metres per Second to Kilometres per Hour
+title: m/s to km/h Converter — Table and Formula
 description: Convert metres per second to km/h and mph. Multiply by 3.6. Full table, the derivation, and why scientists use m/s while road signs do not.
 slug: ms-to-kmh
 priority: 0.7

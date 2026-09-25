@@ -196,6 +196,78 @@ def footer_html():
     return "".join(out)
 
 
+
+def extract_faq(md):
+    """Pull question/answer pairs from a '## Frequently asked' section.
+
+    Questions are h3 headings; the answer is the prose up to the next heading.
+    Returns [] when the page has no FAQ, which is most of them.
+    """
+    m = re.search(r"^##\s+Frequently asked.*?$", md, re.M)
+    if not m:
+        return []
+    section = md[m.end():]
+    nxt = re.search(r"^##\s+", section, re.M)
+    if nxt:
+        section = section[:nxt.start()]
+
+    pairs = []
+    for qm in re.finditer(r"^###\s+(.+?)$", section, re.M):
+        q = qm.group(1).strip()
+        rest = section[qm.end():]
+        stop = re.search(r"^#{2,3}\s+", rest, re.M)
+        answer = rest[:stop.start()] if stop else rest
+        # flatten markdown to plain text for the schema
+        answer = re.sub(r"\*\*([^*]+)\*\*", r"\1", answer)
+        answer = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", answer)
+        answer = re.sub(r"`([^`]+)`", r"\1", answer)
+        answer = " ".join(answer.split())
+        if q and answer:
+            pairs.append((q, answer))
+    return pairs
+
+
+def json_escape(t):
+    return (t.replace("\\", "\\\\").replace('"', '\\"')
+             .replace("\n", " ").replace("\r", " "))
+
+
+def jsonld_for(slug, title, description, md):
+    """Breadcrumbs for every page, FAQPage where questions exist, and
+    SoftwareApplication on the home page."""
+    blocks = []
+    url = url_for(slug)
+
+    if slug == "":
+        blocks.append(
+            '{"@context":"https://schema.org","@type":"SoftwareApplication",'
+            f'"name":"Self Speed","url":"{BASE}/",'
+            '"applicationCategory":"UtilitiesApplication",'
+            '"operatingSystem":"Any device with a web browser",'
+            f'"description":"{json_escape(description)}",'
+            '"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},'
+            '"featureList":"Live GPS speed, maximum and average speed, distance, '
+            'trip history, GPX export, offline use"}')
+    else:
+        blocks.append(
+            '{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":['
+            f'{{"@type":"ListItem","position":1,"name":"Self Speed","item":"{BASE}/"}},'
+            f'{{"@type":"ListItem","position":2,"name":"{json_escape(title)}","item":"{url}"}}'
+            "]}")
+
+    faq = extract_faq(md)
+    if faq:
+        items = ",".join(
+            f'{{"@type":"Question","name":"{json_escape(q)}",'
+            f'"acceptedAnswer":{{"@type":"Answer","text":"{json_escape(a)}"}}}}'
+            for q, a in faq)
+        blocks.append(
+            '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":['
+            + items + "]}")
+
+    return "\n".join(
+        f'<script type="application/ld+json">{blk}</script>' for blk in blocks)
+
 # --------------------------------------------------------------------- build
 def main():
     template = TEMPLATE.read_text(encoding="utf-8")
@@ -210,6 +282,8 @@ def main():
                 .replace("{{canonical}}", url_for(slug))
                 .replace("{{nav}}", nav_html(slug))
                 .replace("{{footer}}", footer_html())
+                .replace("{{jsonld}}", jsonld_for(slug, meta.get("title", slug),
+                                                  meta.get("description", ""), body))
                 .replace("{{content}}", render(body)))
 
         out_dir = ROOT / slug

@@ -1,6 +1,6 @@
 ---
 title: Average Walking Speed — How Fast Do People Walk?
-description: The average walking speed is about 5 km/h (3.1 mph), but it varies with age, height, terrain and purpose. Full tables, what changes it, and why walking pace predicts health.
+description: The average walking speed is about 5 km/h (3.1 mph), but it varies by age, height and terrain. Full tables, and why walking pace predicts health.
 slug: average-walking-speed
 priority: 0.8
 ---

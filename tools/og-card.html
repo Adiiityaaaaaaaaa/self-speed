@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{
+    background:radial-gradient(120% 110% at 50% 0%,#1a2336 0%,#0b0e14 62%);
+    color:#e8ecf5;
+    font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex;align-items:center;gap:64px;padding:0 84px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .gauge{flex:0 0 auto;width:330px;height:330px;position:relative}
+  .gauge svg{width:100%;height:100%;overflow:visible}
+  .readout{position:absolute;inset:0;display:flex;flex-direction:column;
+           align-items:center;justify-content:center;gap:4px}
+  .readout .v{font-size:86px;font-weight:700;letter-spacing:-.03em;line-height:1}
+  .readout .u{font-size:15px;letter-spacing:.24em;text-transform:uppercase;color:#8793ab;font-weight:600}
+  .copy{flex:1;min-width:0}
+  .eyebrow{font-size:17px;letter-spacing:.26em;text-transform:uppercase;
+           color:#37d67a;font-weight:700;margin-bottom:20px}
+  h1{font-size:68px;line-height:1.04;letter-spacing:-.03em;font-weight:700;margin-bottom:22px}
+  p{font-size:25px;line-height:1.45;color:#a9b6cf;max-width:560px}
+  .url{margin-top:34px;font-size:21px;color:#5d6880;letter-spacing:.02em}
+</style>
+</head>
+<body>
+  <div class="gauge">
+    <svg viewBox="0 0 280 280">
+      <defs>
+        <linearGradient id="g" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4aa8ff"/>
+          <stop offset="55%" stop-color="#37d67a"/>
+          <stop offset="100%" stop-color="#ffb23f"/>
+        </linearGradient>
+      </defs>
+      <path d="M 43.0 208.0 A 112 112 0 1 1 237.0 208.0"
+            stroke="#1e2636" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <path d="M 43.0 208.0 A 112 112 0 1 1 237.0 208.0"
+            stroke="url(#g)" stroke-width="18" fill="none" stroke-linecap="round"
+            stroke-dasharray="469 469" stroke-dashoffset="150"/>
+    </svg>
+    <div class="readout"><div class="v">68</div><div class="u">km/h</div></div>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">Self Speed</div>
+    <h1>Your speed,<br>in the browser.</h1>
+    <p>Free GPS speedometer. Live speed, distance and trip history — computed on your device, never uploaded.</p>
+    <div class="url">selfspeed.app</div>
+  </div>
+</body>
+</html>

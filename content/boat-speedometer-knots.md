@@ -1,5 +1,5 @@
 ---
-title: Boat Speedometer in Knots — GPS Speed Over Ground for Sailing
+title: Boat Speedometer in Knots — GPS Speed Over Ground
 description: A free GPS speedometer in knots for sailing, motorboating and kayaking. Shows speed over ground, distance in nautical miles, and works offline on the water.
 slug: boat-speedometer-knots
 priority: 0.9

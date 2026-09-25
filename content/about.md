@@ -1,6 +1,6 @@
 ---
 title: About Self Speed — A Free Browser GPS Speedometer
-description: What Self Speed is, why it exists, how it works, and what it deliberately does not do.
+description: What Self Speed is, why it exists, how it measures your speed, and what it deliberately does not do — no account, no upload, no tracking.
 slug: about
 priority: 0.5
 ---
