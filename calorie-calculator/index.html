@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Calorie Calculator for Walking, Running and Cycling — With Incline</title>
+<meta name="description" content="Work out calories burned walking, running or cycling from your distance, time and incline. Uses ACSM metabolic equations and a physics power model, not a flat MET guess.">
+<link rel="canonical" href="https://selfspeed.app/calorie-calculator/">
+<meta property="og:title" content="Calorie Calculator for Walking, Running and Cycling — With Incline">
+<meta property="og:description" content="Work out calories burned walking, running or cycling from your distance, time and incline. Uses ACSM metabolic equations and a physics power model, not a flat MET guess.">
+<meta property="og:type" content="article">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2162757811453914"
+     crossorigin="anonymous"></script>
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .fgroup{margin-bottom:18px}
+  .fgroup h2{font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+             color:#5d6880;margin:0 0 7px;font-weight:600}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/">
+      <img src="/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/">Speedometer</a><a href="/cycling-speedometer/">Cycling</a><a href="/running-speed-tracker/">Running</a><a href="/car-speedometer/">Driving</a><a href="/boat-speedometer-knots/">Boating</a><a href="/ski-speed-tracker/">Skiing</a><a href="/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+    <h1>Calorie calculator</h1>
+<p>Enter your distance, time and the gradient you covered. Most calculators ignore incline entirely, which is why they under-report hilly routes badly — walking up a 10% gradient costs <strong>2.3x</strong> what the same walk costs on the flat.</p>
+<div class="calc">
+  <div class="calc-modes" role="group" aria-label="Activity">
+    <button type="button" data-act="walk" class="on">Walking</button>
+    <button type="button" data-act="run">Running</button>
+    <button type="button" data-act="bike">Cycling</button>
+  </div>
+
+  <div class="calc-grid">
+    <label>Body weight
+      <span class="row">
+        <input type="number" id="c-weight" value="70" min="20" max="250" step="1">
+        <select id="c-wunit"><option value="kg">kg</option><option value="lb">lb</option></select>
+      </span>
+    </label>
+
+    <label>Distance
+      <span class="row">
+        <input type="number" id="c-dist" value="5" min="0.1" max="500" step="0.1">
+        <select id="c-dunit"><option value="km">km</option><option value="mi">mi</option></select>
+      </span>
+    </label>
+
+    <label>Time
+      <span class="row">
+        <input type="number" id="c-time" value="60" min="1" max="1440" step="1">
+        <span class="suffix">minutes</span>
+      </span>
+    </label>
+
+    <label>Average incline
+      <span class="row">
+        <input type="number" id="c-grade" value="0" min="-20" max="30" step="0.5">
+        <span class="suffix">% grade</span>
+      </span>
+    </label>
+  </div>
+
+  <div class="calc-out">
+    <div class="big"><span id="c-kcal">--</span><small>kcal burned</small></div>
+    <div class="sub" id="c-sub"></div>
+  </div>
+
+  <div class="calc-rows" id="c-rows"></div>
+  <p class="calc-note" id="c-warn"></p>
+</div>
+
+<style>
+.calc{background:#141926;border:1px solid #232c3f;border-radius:16px;padding:18px;margin:26px 0}
+.calc-modes{display:flex;gap:6px;background:#0e121b;border:1px solid #232c3f;
+            border-radius:999px;padding:4px;margin-bottom:16px}
+.calc-modes button{flex:1;appearance:none;border:0;background:transparent;color:#8793ab;
+                   font:inherit;font-size:13px;font-weight:600;padding:8px 10px;
+                   border-radius:999px;cursor:pointer}
+.calc-modes button.on{background:#37d67a;color:#06210f}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.calc label{display:flex;flex-direction:column;gap:5px;font-size:11px;
+            letter-spacing:.09em;text-transform:uppercase;color:#8793ab;font-weight:600}
+.calc .row{display:flex;gap:6px;align-items:center}
+.calc input,.calc select{background:#0b0e14;border:1px solid #232c3f;color:#e8ecf5;
+                         font:inherit;font-size:15px;padding:9px 10px;border-radius:9px;
+                         width:100%;min-width:0}
+.calc select{width:auto;flex:0 0 auto}
+.calc .suffix{color:#8793ab;font-size:12px;text-transform:none;letter-spacing:0;white-space:nowrap}
+.calc-out{margin-top:18px;padding-top:16px;border-top:1px solid #232c3f;text-align:center}
+.calc-out .big{font-size:44px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;
+               color:#37d67a;display:flex;flex-direction:column;align-items:center;gap:2px}
+.calc-out .big small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+                     color:#8793ab;font-weight:600}
+.calc-out .sub{margin-top:8px;font-size:13px;color:#8793ab}
+.calc-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+           gap:8px;margin-top:16px}
+.calc-rows div{background:#0e121b;border:1px solid #232c3f;border-radius:11px;
+               padding:9px;text-align:center}
+.calc-rows b{display:block;font-size:16px;font-variant-numeric:tabular-nums;color:#e8ecf5}
+.calc-rows span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#8793ab}
+.calc-note{font-size:12px;color:#ffb23f;margin:12px 0 0;min-height:16px;text-align:center}
+</style>
+
+<script>
+(function(){
+  var act='walk';
+  var $=function(id){return document.getElementById(id);};
+  var els=['c-weight','c-dist','c-time','c-grade','c-wunit','c-dunit'].map($);
+
+  function calc(){
+    var kg=parseFloat($('c-weight').value)||0;
+    if($('c-wunit').value==='lb') kg*=0.45359237;
+    var dist=parseFloat($('c-dist').value)||0;
+    if($('c-dunit').value==='mi') dist*=1.609344;
+    var mins=parseFloat($('c-time').value)||0;
+    var gradePct=parseFloat($('c-grade').value)||0;
+    var g=gradePct/100;
+
+    if(kg<=0||dist<=0||mins<=0){ $('c-kcal').textContent='--'; return; }
+
+    var kmh=dist/(mins/60);
+    var mPerMin=dist*1000/mins;
+    var v=mPerMin/60;                    // m/s
+    var gross, note='';
+
+    if(act==='bike'){
+      // Physics: rolling + gravity + aerodynamic drag, divided by human efficiency.
+      var mTot=kg+10;                    // rider plus a typical bike
+      var theta=Math.atan(g);
+      // CdA 0.40 is a normal riding position on the hoods; 0.32 would be a
+      // racing tuck and made low speeds read below walking.
+      var Crr=0.006, CdA=0.40, rho=1.225, eff=0.24;
+      var F = Crr*mTot*9.81*Math.cos(theta)
+            + mTot*9.81*Math.sin(theta)
+            + 0.5*rho*CdA*v*v;
+      var watts=F*v;
+      if(watts<0) watts=0;               // freewheeling downhill costs ~nothing
+      // Propulsion cost plus resting metabolism. The ACSM equations used for
+      // walking and running include resting via their +3.5 term; without this
+      // cycling would be scored on propulsion alone and read far too low.
+      gross=(watts/eff)*(mins*60)/4184 + 3.5*kg*mins/1000*5;
+      if(watts>400) note='That implies '+Math.round(watts)+' W sustained — near-professional. Check your distance, time and gradient.';
+      else if(watts>250) note='That implies '+Math.round(watts)+' W sustained, which is a strong trained effort.';
+      else if(kmh>50) note='Above 50 km/h the drag model is stretched; treat as indicative.';
+    } else {
+      // ACSM metabolic equations, VO2 in ml/kg/min.
+      var vo2 = (act==='run')
+        ? 0.2*mPerMin + 0.9*mPerMin*g + 3.5
+        : 0.1*mPerMin + 1.8*mPerMin*g + 3.5;
+      if(vo2<3.5) vo2=3.5;               // never below resting
+      gross=vo2*kg*mins/1000*5;
+      if(act==='walk'&&kmh>7.5) note='Above about 7.5 km/h most people run. Switch to Running for a better estimate.';
+      if(act==='run'&&kmh<7)   note='Below about 7 km/h the running equation overestimates. Switch to Walking.';
+    }
+
+    var rest=3.5*kg*mins/1000*5;         // resting metabolism over the same period
+    var net=Math.max(0,gross-rest);
+    var mets=gross/(mins/60)/kg;
+
+    $('c-kcal').textContent=Math.round(gross);
+    $('c-sub').textContent=Math.round(net)+' kcal net of resting metabolism';
+    var paceSec=mins*60/dist;
+    $('c-rows').innerHTML=
+      '<div><b>'+kmh.toFixed(1)+'</b><span>km/h</span></div>'+
+      '<div><b>'+Math.floor(paceSec/60)+':'+('0'+Math.round(paceSec%60)).slice(-2)+'</b><span>min/km</span></div>'+
+      '<div><b>'+mets.toFixed(1)+'</b><span>MET</span></div>'+
+      '<div><b>'+(gross/dist).toFixed(0)+'</b><span>kcal/km</span></div>';
+    $('c-warn').textContent=note;
+  }
+
+  document.querySelectorAll('.calc-modes button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.calc-modes button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); act=b.dataset.act; calc();
+    });
+  });
+  els.forEach(function(e){ e.addEventListener('input',calc); e.addEventListener('change',calc); });
+  calc();
+})();
+</script>
+<h2 id="how-this-is-calculated">How this is calculated</h2>
+<p>Most online calorie calculators multiply a single MET value by your weight and time. That is fine on flat ground and wrong everywhere else, because it has no way to account for gradient.</p>
+<p>This one uses two different models depending on what you are doing.</p>
+<h3>Walking and running</h3>
+<p>The <strong>ACSM metabolic equations</strong>, which are standard in exercise physiology and take grade as an explicit input:</p>
+<blockquote><p>Walking: VO₂ = (0.1 × speed) + (1.8 × speed × grade) + 3.5 Running: VO₂ = (0.2 × speed) + (0.9 × speed × grade) + 3.5</p></blockquote>
+<p>Speed is in metres per minute, grade is a fraction, and VO₂ comes out in ml/kg/min. Oxygen consumption converts to energy at roughly 5 kcal per litre.</p>
+<p>Note the grade coefficient: <strong>1.8 for walking against 0.9 for running.</strong> Climbing penalises walkers twice as much per unit of grade, which is why a steep hill turns a walk into a genuinely hard effort while runners lose comparatively less.</p>
+<h3>Cycling</h3>
+<p>Cycling is not well served by MET tables, because air resistance dominates and scales with the cube of speed in power terms. So this uses a physical model of the forces you are actually overcoming:</p>
+<blockquote><p>Power = (rolling resistance + gravity + aerodynamic drag) × speed</p></blockquote>
+<p>with rolling resistance at 0.006, drag area CdA at 0.40 m² (a normal position on the hoods, not a racing tuck), air density 1.225 kg/m³, and a 10 kg bike. Mechanical power is divided by <strong>0.24</strong> — human muscular efficiency — to get metabolic cost.</p>
+<p>That efficiency figure is the reason cycling burns so much: roughly three quarters of the energy you produce leaves as heat rather than propulsion.</p>
+<h2 id="gross-versus-net-calories">Gross versus net calories</h2>
+<p>The large number is <strong>gross</strong> — total energy expended.</p>
+<p>The smaller figure is <strong>net</strong>, with your resting metabolism subtracted. You would have burned those calories lying on the sofa, so if you are counting calories against food intake, net is the honest number.</p>
+<p>For an hour of exercise the difference is typically 60–100 kcal. Most fitness apps report gross, which is one reason app estimates tend to look generous.</p>
+<h2 id="how-accurate-is-any-of-this">How accurate is any of this?</h2>
+<p><strong>Roughly ±10–20% for an individual, at best.</strong> Treat the output as a good estimate, not a measurement.</p>
+<p>Sources of error that no calculator can see:</p>
+<ul><li><strong>Efficiency varies between people</strong> by 5–10%, and trained athletes are more economical than beginners at the same speed.</li><li><strong>Terrain and surface.</strong> Sand, mud, snow and rough trail cost far more than the equivalent distance on tarmac.</li><li><strong>Wind.</strong> For cycling this is enormous — a headwind can double your power output at the same ground speed, and the calculator has no way to know.</li><li><strong>Body composition.</strong> Muscle and fat have different metabolic costs to carry.</li><li><strong>Temperature.</strong> Both heat and cold add metabolic load.</li></ul>
+<p>The relative numbers are more trustworthy than the absolute ones. If it says today's hilly walk cost 40% more than yesterday's flat one, believe that — even if both absolute figures are 15% off.</p>
+<h2 id="rough-reference-figures">Rough reference figures</h2>
+<p>For a 70 kg person on level ground:</p>
+<div class="table-wrap"><table><thead><tr><th>Activity</th><th>Speed</th><th>kcal per hour</th><th>kcal per km</th></tr></thead><tbody><tr><td>Walking, easy</td><td>4 km/h</td><td>214</td><td>53</td></tr><tr><td>Walking, brisk</td><td>6 km/h</td><td>284</td><td>47</td></tr><tr><td>Running, steady</td><td>10 km/h</td><td>774</td><td>77</td></tr><tr><td>Running, fast</td><td>14 km/h</td><td>1,054</td><td>75</td></tr><tr><td>Cycling, leisure</td><td>16 km/h</td><td>226</td><td>14</td></tr><tr><td>Cycling, moderate</td><td>25 km/h</td><td>485</td><td>19</td></tr><tr><td>Cycling, fast</td><td>32 km/h</td><td>840</td><td>26</td></tr></tbody></table></div>
+<p>The pattern worth noticing: <strong>running costs roughly the same per kilometre regardless of speed</strong>, because you are lifting your body weight the same number of times either way. Cycling is the opposite — cost per kilometre rises steeply with speed, since drag grows with the square of velocity.</p>
+<p>Walking is the most efficient per kilometre. It simply takes longer.</p>
+<h2 id="measuring-the-inputs">Measuring the inputs</h2>
+<p>The calculator is only as good as the distance and time you feed it. Self Speed records both automatically, along with your average speed — see <a href="/average-walking-speed/">average walking speed</a> and <a href="/average-cycling-speed/">average cycling speed</a> for what to expect.</p>
+<p>Incline is the one figure GPS handles poorly. Vertical accuracy is typically two to three times worse than horizontal, so for a route with meaningful climbing, take the gradient from a mapping tool rather than from your phone.</p>
+
+    <a class="cta" href="/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><div class="fgroup"><h2>Guides</h2><div class="links"><a href="/how-gps-speedometers-work/">How GPS speedometers work</a><a href="/is-gps-speed-accurate/">Is GPS speed accurate?</a><a href="/average-walking-speed/">Average walking speed</a><a href="/average-cycling-speed/">Average cycling speed</a><a href="/average-running-speed/">Average running speed</a></div></div><div class="fgroup"><h2>Tools</h2><div class="links"><a href="/calorie-calculator/">Calorie calculator</a><a href="/running-pace-calculator/">Running pace calculator</a></div></div><div class="fgroup"><h2>Convert</h2><div class="links"><a href="/kmh-to-mph/">km/h → mph</a><a href="/mph-to-kmh/">mph → km/h</a><a href="/knots-to-kmh/">knots → km/h</a><a href="/ms-to-kmh/">m/s → km/h</a><a href="/mph-to-knots/">mph → knots</a></div></div><div class="fgroup"><h2>Site</h2><div class="links"><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -43,13 +43,16 @@ FOOTER_GROUPS = [
         ("average-cycling-speed", "Average cycling speed"),
         ("average-running-speed", "Average running speed"),
     ]),
+    ("Tools", [
+        ("calorie-calculator", "Calorie calculator"),
+        ("running-pace-calculator", "Running pace calculator"),
+    ]),
     ("Convert", [
         ("kmh-to-mph", "km/h → mph"),
         ("mph-to-kmh", "mph → km/h"),
         ("knots-to-kmh", "knots → km/h"),
         ("ms-to-kmh", "m/s → km/h"),
         ("mph-to-knots", "mph → knots"),
-        ("running-pace-calculator", "Running pace calculator"),
     ]),
     ("Site", [
         ("about", "About"),
@@ -82,6 +85,18 @@ def render(md):
 
         if not stripped:
             i += 1
+            continue
+
+        # Raw HTML passthrough: everything between ':::html' and ':::' is
+        # emitted verbatim. Used for interactive widgets.
+        if stripped == ":::html":
+            i += 1
+            raw = []
+            while i < len(lines) and lines[i].strip() != ":::":
+                raw.append(lines[i])
+                i += 1
+            i += 1  # skip closing :::
+            out.append("\n".join(raw))
             continue
 
         # Heading
