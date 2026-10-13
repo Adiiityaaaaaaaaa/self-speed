@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>How to Tell If a Speedometer App Is Tracking You</title>
+<meta name="description" content="Three ways to check for yourself whether a speed app sends your location anywhere, in about two minutes, without taking the developer's word for it.">
+<link rel="canonical" href="https://selfspeed.app/location-privacy/">
+<meta property="og:title" content="How to Tell If a Speedometer App Is Tracking You">
+<meta property="og:description" content="Three ways to check for yourself whether a speed app sends your location anywhere, in about two minutes, without taking the developer's word for it.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://selfspeed.app/location-privacy/">
+<meta property="og:site_name" content="Self Speed">
+<meta property="og:image" content="https://selfspeed.app/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Tell If a Speedometer App Is Tracking You">
+<meta name="twitter:description" content="Three ways to check for yourself whether a speed app sends your location anywhere, in about two minutes, without taking the developer's word for it.">
+<meta name="twitter:image" content="https://selfspeed.app/icons/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Self Speed","item":"https://selfspeed.app/"},{"@type":"ListItem","position":2,"name":"How to Tell If a Speedometer App Is Tracking You","item":"https://selfspeed.app/location-privacy/"}]}</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2162757811453914"
+     crossorigin="anonymous"></script>
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141926; --line:#232c3f;
+    --text:#e8ecf5; --muted:#8793ab; --accent:#37d67a; --info:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 20px}
+
+  /* ---- masthead ---- */
+  .top{border-bottom:1px solid var(--line);background:#0e121b;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:10px;padding:14px 0 10px;text-decoration:none;color:var(--text)}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  .brand strong{font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{
+    color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;
+    padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  nav a:hover{color:var(--text);background:var(--panel)}
+  nav a.here{background:var(--accent);color:#06210f}
+
+  /* ---- article ---- */
+  article{padding:32px 0 8px}
+  h1{font-size:clamp(28px,6vw,38px);line-height:1.2;letter-spacing:-.02em;margin:0 0 18px}
+  h2{font-size:22px;line-height:1.3;margin:38px 0 12px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:26px 0 8px;color:#c6cee0}
+  p{margin:0 0 16px}
+  a{color:var(--info)}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{color:#fff}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;
+       padding:1px 5px;font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);
+             background:var(--panel);border-radius:0 10px 10px 0}
+  blockquote p{margin:0;color:#c6cee0}
+
+  .table-wrap{overflow-x:auto;margin:0 0 20px}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:340px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  td{font-variant-numeric:tabular-nums}
+
+  /* ---- related pages ---- */
+  .related{margin:44px 0 0;padding-top:26px;border-top:1px solid var(--line)}
+  .related h2{font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+              color:var(--muted);margin:0 0 14px;font-weight:600}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+  .rgrid a{display:block;background:var(--panel);border:1px solid var(--line);
+           border-radius:13px;padding:14px 15px;text-decoration:none;color:var(--text)}
+  .rgrid a:hover{border-color:#35425e;background:#182033}
+  .rgrid strong{display:block;font-size:15px;line-height:1.3;margin-bottom:4px;color:#fff}
+  .rgrid span{font-size:12.5px;line-height:1.45;color:var(--muted)}
+
+  /* ---- call to action ---- */
+  .cta{
+    display:block;margin:30px 0;padding:20px;border-radius:16px;text-decoration:none;
+    background:linear-gradient(135deg,#16243a,#111a28);border:1px solid #294066;color:var(--text);
+  }
+  .cta strong{display:block;font-size:18px;margin-bottom:4px;color:#fff}
+  .cta span{color:var(--muted);font-size:14px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px}
+  .fgroup{margin-bottom:18px}
+  .fgroup h2{font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+             color:#5d6880;margin:0 0 7px;font-weight:600}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:18px}
+  .links a{color:var(--muted);text-decoration:none}
+  .links a:hover{color:var(--text);text-decoration:underline}
+  .fine{color:#5d6880;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="shell">
+    <a class="brand" href="/">
+      <img src="/icons/icon-192.png" alt="" width="26" height="26">
+      <strong>Self Speed</strong>
+    </a>
+    <nav><a href="/">Speedometer</a><a href="/cycling-speedometer/">Cycling</a><a href="/running-speed-tracker/">Running</a><a href="/car-speedometer/">Driving</a><a href="/boat-speedometer-knots/">Boating</a><a href="/ski-speed-tracker/">Skiing</a><a href="/train-speedometer/">Transit</a></nav>
+  </div>
+</div>
+
+<div class="shell">
+  <article>
+        <h1>How to tell if a speedometer app is tracking you</h1>
+<p>Every speed app says it respects your privacy. <strong>The claim costs nothing to write.</strong> This page shows you how to check it yourself, in about two minutes, without taking anyone's word for it — including ours.</p>
+<p>The techniques work on any web app, not just this one.</p>
+<h2 id="why-the-promise-is-worth-nothing">Why the promise on its own is worth nothing</h2>
+<p>A privacy policy is a description of intent. It is not a technical control, nobody audits it for a free app, and an app store listing that says "does not collect location" is self-declared by the developer.</p>
+<p>A native app makes this hard to check. Once it is installed it can talk to the network whenever it likes, and you cannot see what it sends without specialist tooling.</p>
+<p>A web app is different, and this is the real argument for using one: <strong>everything it does happens inside a browser you control, and the browser will tell you exactly what it sent.</strong></p>
+<h2 id="check-1-take-the-network-away">Check 1: take the network away</h2>
+<p>The fastest test, and the most convincing.</p>
+<ol><li>Load the speedometer once, with a connection.</li><li>Turn on airplane mode, or switch off wifi and mobile data.</li><li>Use it.</li></ol>
+<p>If the speed still updates, the speed is being computed on your device. Nothing is being sent anywhere, because there is nowhere for it to go.</p>
+<p>This is a stronger result than it looks. An app that needed to phone home would simply stop working. One that keeps working offline cannot be uploading the thing it is showing you.</p>
+<h2 id="check-2-watch-the-network-tab">Check 2: watch the network tab</h2>
+<p>This is the direct observation: a list of every request the page makes.</p>
+<p><strong>On a desktop browser</strong> press <kbd>F12</kbd> (or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd> on a Mac), open the <strong>Network</strong> tab, and reload the page. Start the speedometer and watch.</p>
+<p>What you are looking for is any request that fires <em>while your speed is updating</em>. Loading the page itself fetches files — that is normal. The question is whether anything is sent afterwards, as you move.</p>
+<p>Click any request and look at the <strong>Payload</strong> or <strong>Request</strong> tab to see what was actually in it. Coordinates are easy to spot: two numbers with several decimal places.</p>
+<p><strong>On Android</strong>, Chrome can be inspected from a desktop machine over USB using <code>chrome://inspect</code>. On iOS, Safari can be inspected from a Mac with Web Inspector. Neither is necessary — check 1 proves the same point without any of it.</p>
+<h2 id="check-3-read-the-source">Check 3: read the source</h2>
+<p>Press <kbd>Ctrl</kbd>+<kbd>U</kbd>, or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>U</kbd> on a Mac, to see the page exactly as it was delivered.</p>
+<p>Search it for <code>fetch(</code>, <code>XMLHttpRequest</code>, <code>sendBeacon</code> and <code>WebSocket</code>. Those are the four ways a page can send data out. If none of them appear near the geolocation code, the coordinates have nowhere to travel.</p>
+<p>You are looking for what the geolocation callback does with its argument. In a tracking app it would end up in a request body. In one that does not track, it goes into the display and nowhere else.</p>
+<h2 id="what-self-speed-actually-loads">What Self Speed actually loads</h2>
+<p>Being specific, since a page about verification should not ask for trust either.</p>
+<p>Self Speed loads files from exactly two places: <strong>selfspeed.app</strong>, and <strong>pagead2.googlesyndication.com</strong>, which is Google's advertising script. There is no analytics, no tag manager, no font CDN, no error reporting service.</p>
+<p>You can confirm that count yourself in the network tab. If you ever see a third origin on this site, something has changed and the claim on this page is no longer true.</p>
+<p><strong>What the ad script means.</strong> It is a third-party script from Google, and it is not nothing. Google can see your IP address and the page you are on, as it can on any site carrying ads, and it may use that for ad personalisation. <strong>It is not given your coordinates</strong> — your position never leaves the JavaScript that draws the dial. But an IP address is a rough location in itself, accurate to perhaps a city. If that matters to you, a content blocker will remove the script entirely and the speedometer will carry on working, because nothing depends on it.</p>
+<h2 id="what-stays-on-your-device">What stays on your device</h2>
+<p>Not uploading is not the same as not storing. Self Speed keeps your trip history in your browser's local storage, on your machine, so it survives closing the tab. Clearing your browser data removes it. A GPX export writes a file you choose the location of; it is not sent anywhere on the way.</p>
+<h2 id="what-none-of-this-protects-you-from">What none of this protects you from</h2>
+<p>Being honest about the limits, because a verification guide that oversells itself is the thing it is warning about.</p>
+<ul><li><strong>Your network still sees your IP.</strong> Checking a page makes no outbound requests does not make you anonymous to your ISP or mobile carrier.</li><li><strong>The page can change.</strong> What you verified today is what was served today. A site can ship different code tomorrow, which is why the offline test is worth repeating occasionally.</li><li><strong>Your operating system still knows.</strong> Android and iOS log location access at the system level regardless of what the app does with it.</li><li><strong>Other tabs are not covered.</strong> You have verified one page, not your browser.</li></ul>
+<h2 id="frequently-asked">Frequently asked</h2>
+<p><strong>Does the browser permission prompt mean it is uploading my location?</strong> No. The prompt means the page asked the browser for your position. What it then does with it is a separate question, and the one this page answers.</p>
+<p><strong>Is a web app really more private than an installed app?</strong> For this kind of tool, yes — not because web developers are more trustworthy, but because you can inspect a web page and you cannot easily inspect a native binary. Verifiability is the advantage, not good intentions.</p>
+<p><strong>Why does it work offline at all?</strong> A service worker caches the files on your first visit. GPS itself has never needed a connection — satellites broadcast one way, and your phone only listens.</p>
+<p><strong>Can I check this on my phone without a computer?</strong> Yes. Airplane mode is the whole test, and it is the most convincing of the three.</p>
+
+    <section class="related"><h2>Related</h2><div class="rgrid"><a href="/is-gps-speed-accurate/"><strong>Is GPS Speed Accurate?</strong><span>What degrades it, and when to trust it</span></a><a href="/how-gps-speedometers-work/"><strong>How GPS Speedometers Work</strong><span>Doppler shift, and why it beats the obvious method</span></a><a href="/privacy/"><strong>Privacy Policy</strong><span>The formal version of all this</span></a><a href="/about/"><strong>About</strong><span>Why this exists</span></a></div></section>
+
+    <a class="cta" href="/">
+      <strong>Open the speedometer →</strong>
+      <span>Free, no install, works offline. Nothing leaves your device.</span>
+    </a>
+  </article>
+
+  <footer>
+    <div class="links"><div class="fgroup"><h2>Guides</h2><div class="links"><a href="/how-gps-speedometers-work/">How GPS speedometers work</a><a href="/is-gps-speed-accurate/">Is GPS speed accurate?</a><a href="/average-walking-speed/">Average walking speed</a><a href="/average-cycling-speed/">Average cycling speed</a><a href="/average-running-speed/">Average running speed</a></div></div><div class="fgroup"><h2>Tools</h2><div class="links"><a href="/calorie-calculator/">Calorie calculator</a><a href="/running-pace-calculator/">Running pace calculator</a></div></div><div class="fgroup"><h2>Convert</h2><div class="links"><a href="/kmh-to-mph/">km/h → mph</a><a href="/mph-to-kmh/">mph → km/h</a><a href="/knots-to-kmh/">knots → km/h</a><a href="/ms-to-kmh/">m/s → km/h</a><a href="/mph-to-knots/">mph → knots</a></div></div><div class="fgroup"><h2>Site</h2><div class="links"><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div></div>
+    <p class="fine">
+      Self Speed is a free browser GPS speedometer. Your location is processed
+      entirely on your device and is never uploaded. Readings depend on your
+      device's GPS hardware and should not be relied on where an accurate,
+      certified speed measurement is required.
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>
